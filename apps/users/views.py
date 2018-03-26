@@ -13,10 +13,13 @@ from .models import UserProfile, EmailVerifyRecord, Banner
 from .forms import LoginForm, RegisterForm, ForgetForm, ModifyPwdForm, UploadImageForm, UserInfoForm
 from utils.email_send import send_register_email
 from utils.mixin_utils import LoginRequiredMixin
-# from operation.models import UserCourse, UserFavorite, UserMessage
-# from organization.models import CourseOrg, Teacher
-# from courses.models import Course
-
+from operation.models import UserMessage
+from hotels.models import Hotel,BannerHotel
+from spots.models import Spot,BannerSpot
+from schedules.models import Schedule,BannerSchedule
+from operation.models import UserHotel,UserSchedule,UserSpot
+from operation.models import SpotComments,ScheduleComments,HotelComments
+from operation.models import UserFavorite
 import json
 
 # Create your views here.
@@ -84,37 +87,37 @@ class LogoutView(View):
 
 
 # 用户注册
-# class RegisterView(View):
-#     def get(self, request):
-#         # get 请求的时候，把验证码组件一系列的 HTML render 到 register.html 里
-#         register_form = RegisterForm()
-#         return render(request, 'register.html', {'register_form': register_form})
-#
-#     def post(self, request):
-#         register_form = RegisterForm(request.POST)
-#         if register_form.is_valid():
-#             email = request.POST.get('email', '')
-#             if UserProfile.objects.filter(email=email):
-#                 return render(request, 'register.html', {'register_form': register_form, 'msg': '用户已经存在！'})
-#             password = request.POST.get('password', '')
-#
-#             user_profile = UserProfile()
-#             user_profile.username = email
-#             user_profile.email = email
-#             user_profile.password = make_password(password)
-#             user_profile.is_active = False
-#             user_profile.save()
-#
-#             #注册时发送一条消息
-#             user_message = UserMessage()
-#             user_message.user = user_profile.id
-#             user_message.message = '欢迎注册慕学在线网！'
-#             user_message.save()
-#
-#             send_register_email(email, 'register')
-#             return render(request, 'send_success.html')
-#
-#         return render(request, 'register.html', {'register_form': register_form})
+class RegisterView(View):
+    def get(self, request):
+        # get 请求的时候，把验证码组件一系列的 HTML render 到 register.html 里
+        register_form = RegisterForm()
+        return render(request, 'register.html', {'register_form': register_form})
+
+    def post(self, request):
+        register_form = RegisterForm(request.POST)
+        if register_form.is_valid():
+            email = request.POST.get('email', '')
+            if UserProfile.objects.filter(email=email):
+                return render(request, 'register.html', {'register_form': register_form, 'msg': '用户已经存在！'})
+            password = request.POST.get('password', '')
+
+            user_profile = UserProfile()
+            user_profile.username = email
+            user_profile.email = email
+            user_profile.password = make_password(password)
+            user_profile.is_active = False
+            user_profile.save()
+
+            #注册时发送一条消息
+            user_message = UserMessage()
+            user_message.user = user_profile.id
+            user_message.message = '欢迎注册慕学在线网！'
+            user_message.save()
+
+            send_register_email(email, 'register')
+            return render(request, 'send_success.html')
+
+        return render(request, 'register.html', {'register_form': register_form})
 
 
 # 验证用户注册后，在邮件里点击注册链接
@@ -279,27 +282,22 @@ class UpdateEmailView(LoginRequiredMixin, View):
         return HttpResponse(json.dumps(res), content_type='application/json')
 
 
-# 我的课程
-# class MyCourseView(LoginRequiredMixin, View):
-#     def get(self, request):
-#      user_courses = UserCourse.objects.filter(user=request.user)
-#      return render(request, 'usercenter-mycourse.html', {
-#          'user_courses': user_courses,
-#      })
+# 我的酒店
+class MyHotelView(LoginRequiredMixin, View):
+    def get(self, request):
+     user_hotel = UserHotel.objects.filter(user=request.user)
+     return render(request, 'usercenter-my.html', {
+         'user_hotel': user_hotel,
+     })
 
 
-# 我收藏的课程机构
-# class MyFavOrgView(LoginRequiredMixin, View):
-#     def get(self, request):
-#      org_list = []
-#      fav_orgs = UserFavorite.objects.filter(user=request.user, fav_type=2)
-#      for fav_org in fav_orgs:
-#          org_id = fav_org.fav_id
-#          org = CourseOrg.objects.get(id=org_id)
-#          org_list.append(org)
-#      return render(request, 'usercenter-fav-org.html', {
-#          'org_list': org_list,
-#      })
+#我收藏酒店
+class MyFavHotelView(LoginRequiredMixin, View):
+    def get(self, request):
+     fav_hotels = UserFavorite.objects.filter(user=request.user, fav_type=2)
+     return render(request, 'usercenter-fav-hotel.html', {
+         'org_list': fav_hotels,
+     })
 
 
 # 我收藏的授课讲师
@@ -330,46 +328,52 @@ class UpdateEmailView(LoginRequiredMixin, View):
 #         })
 
 
-# 我的消息
-# class MyMessageView(LoginRequiredMixin, View):
-#     def get(self, request):
-#         # 如果 user = 0 ，代表全局消息，所有用户都能收到
-#         all_message = UserMessage.objects.filter(user=request.user.id)
-#
-#         #进入到我的消息页面后，把已读的消息清空
-#         all_unread_message = UserMessage.objects.filter(user=request.user.id, has_read=False)
-#         for unread_message in all_unread_message:
-#             unread_message.has_read = True
-#             unread_message.save()
-#
-#         # 对个人消息分页
-#         try:
-#             page = request.GET.get('page', 1)
-#         except PageNotAnInteger:
-#             page = 1
-#
-#         p = Paginator(all_message, 2, request=request)
-#         messages = p.page(page)
-#
-#         return render(request, 'usercenter-message.html', {
-#             'messages': messages,
-#         })
+#我的消息
+class MyMessageView(LoginRequiredMixin, View):
+    def get(self, request):
+        # 如果 user = 0 ，代表全局消息，所有用户都能收到
+        all_message = UserMessage.objects.filter(user=request.user.id)
+
+        #进入到我的消息页面后，把已读的消息清空
+        all_unread_message = UserMessage.objects.filter(user=request.user.id, has_read=False)
+        for unread_message in all_unread_message:
+            unread_message.has_read = True
+            unread_message.save()
+
+        # 对个人消息分页
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        p = Paginator(all_message, 2, request=request)
+        messages = p.page(page)
+
+        return render(request, 'usercenter-message.html', {
+            'messages': messages,
+        })
 
 
 # 慕学在线网首页
-# class IndexView(View):
-#     def get(self, request):
-#         # 取出轮播图
-#         all_banners = Banner.objects.all().order_by('index')
-#         courses = Course.objects.filter(is_banner=False)[:6]
-#         banner_courses = Course.objects.filter(is_banner=True)[:3]
-#         course_orgs = CourseOrg.objects.all()[:15]
-#         return render(request, 'index.html', {
-#             'all_banners': all_banners,
-#             'courses': courses,
-#             'banner_courses': banner_courses,
-#             'course_orgs': course_orgs,
-#         })
+class IndexView(View):
+    def get(self, request):
+        # 取出轮播图
+        all_banners = Banner.objects.all().order_by('index')
+        schedules = Schedule.objects.filter(is_banner=False)[:6]
+        banner_schedules = Schedule.objects.filter(is_banner=True)[:3]
+        spots = Spot.objects.all()[:15]
+
+        hotels = Hotel.objects.all()[:6]
+
+
+        return render(request, 'index.html', {
+            'all_banners': all_banners,
+            'schedules': schedules,
+            'banner_schedules': banner_schedules,
+            'spots': spots,
+            'hotels': hotels,
+        })
+
 
 
 # 全局 404 处理函数

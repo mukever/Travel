@@ -14,11 +14,12 @@ class CityDictAdmin:
 
 
 class SpotsAdmin:
-    list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_nums',
+    style_fields = {'detail': 'ueditor'}
+    list_display = ['name', 'desc', 'detail', 'tag',  'fav_nums',
                     'click_nums', 'add_time']
-    search_fields = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_nums',
+    search_fields = ['name', 'desc', 'detail', 'tag',  'fav_nums',
                     'click_nums']
-    list_filter = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_nums', 'click_nums', 'add_time']
+    list_filter = ['name', 'desc', 'detail', 'tag',  'fav_nums', 'click_nums', 'add_time']
 
     ordering = ['-click_nums']
 
@@ -37,11 +38,12 @@ class SpotsAdmin:
 
 
 class TicketsAdmin(object):
-    list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_nums',
+    style_fields = {'detail': 'ueditor'}
+    list_display = ['name', 'desc', 'detail', 'tag',   'fav_nums',
                     'click_nums', 'add_time']
-    search_fields = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_nums',
+    search_fields = ['name', 'desc', 'detail', 'tag',  'fav_nums',
                     'click_nums']
-    list_filter = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_nums',
+    list_filter = ['name', 'desc', 'detail', 'tag', 'fav_nums',
                     'click_nums', 'add_time']
     ordering = ['-click_nums']
 
@@ -52,7 +54,7 @@ class TicketsAdmin(object):
     #把轮播图从 User model 里转移到 Course model 里
     def queryset(self):
         qs = super(TicketsAdmin, self).queryset()
-        qs = qs.filter(is_banner=True)
+        #qs = qs.filter(is_banner=True)
         return qs
 
 

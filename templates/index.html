@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}课程机构列表 - 慕学在线网{% endblock %}
+
+{% block custom_bread %}
+{% endblock %}
+
+{% block custom_js %}
+<script src="{% static 'js/index.js' %}"></script>
+{% endblock %}
+
+{% block custom_content %}
+<div class="banner">
+  <div class="wp">
+    <div class="fl">
+      <div class="imgslide">
+        <ul class="imgs">
+          {% for banner in all_banners %}
+          <li>
+            <a href="{{ banner.url }}">
+              <img width="1200" height="478" src="{{ MEDIA_URL }}{{ banner.image }}"/>
+            </a>
+          </li>
+          {% endfor %}
+
+        </ul>
+      </div>
+      <div class="unslider-arrow prev"></div>
+      <div class="unslider-arrow next"></div>
+    </div>
+
+  </div>
+
+
+</div>
+<!--banner -->
+<section>
+  <div class="wp">
+    <ul class="feature">
+      <li class="feature1">
+        <img class="pic" src="{% static 'images/feature1.png' %}"/>
+        <p class="center">专业权威</p>
+      </li>
+      <li class="feature2">
+        <img class="pic" src="{% static 'images/feature2.png' %}"/>
+        <p class="center">行程最省</p>
+      </li>
+      <li class="feature3">
+        <img class="pic" src="{% static 'images/feature3.png' %}"/>
+        <p class="center">一票到底</p>
+      </li>
+      <li class="feature4">
+        <img class="pic" src="{% static 'images/feature4.png' %}"/>
+        <p class="center">数据真实</p>
+      </li>
+    </ul>
+  </div>
+</section>
+<!--feature end-->
+<!--module1 start-->
+<section>
+  <div class="module">
+    <div class="wp">
+      <h1>热门行程</h1>
+      <div class="module1 eachmod">
+        <div class="module1_1 left">
+          <img width="228" height="614" src="{% static 'images/module1_1.jpg' %}"/>
+          <p class="fisrt_word">专业团队<br/>带你游玩</p>
+          <a class="more" href="{% url 'schedules:schedules_list' %}">查看更多行程程 ></a>
+        </div>
+        <div class="right group_list">
+          <div class="module1_2 box">
+            <div class="imgslide2">
+              <ul class="imgs">
+                {% for banner_schedule in banner_schedules %}
+                <li>
+{#                  <a href="{% url 'schedules:schedule_detail' banner_course.id %}">#}
+                    <img width="470" height="300" src="{{ MEDIA_URL }}{{ banner_schedule.image }}"/>
+{#                  </a>#}
+                </li>
+                {% endfor %}
+
+              </ul>
+            </div>
+            <div class="unslider-arrow2 prev"></div>
+            <div class="unslider-arrow2 next"></div>
+          </div>
+          {% for schedule in schedules %}
+          <div class="module1_{{ forloop.counter|add:2 }} box">
+            <a href="{% url 'schedules:schedule_detail' schedule.id %}">
+              <img width="233" height="190" src="{{ MEDIA_URL }}{{ schedule.image }}"/>
+            </a>
+            <div class="des">
+              <a href="{% url 'schedules:schedules_detail' schedule.id %}">
+                <h2 title="django入门">{{ schedule.name }}</h2>
+              </a>
+              <span class="fl">热度：<i class="key">{{ schedule.degree }}</i></span>
+              <span class="fr">参与人数：{{ schedule.buy_nums }}</span>
+            </div>
+            <div class="bottom">
+              <span class="star fr">{{ schedule.fav_nums }}</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="module greybg">
+    <div class="wp">
+      <h1>热门酒店</h1>
+      <div class="module3 eachmod">
+        <div class="module3_1 left">
+          <img width="228" height="463" src="{% static 'images/module3_1.jpg' %}"/>
+          <p class="fisrt_word">大牌来袭<br/>带你high</p>
+          <a class="more" href="{% url 'hotels:hotels_list' %}">查看更多酒店 ></a>
+        </div>
+        <div class="right">
+          <ul>
+            {% for hotel in hotels %}
+            <li class="{% if forloop.counter|divisibleby:5 %}five{% endif %}">
+              <a href="{% url 'hotels:hotel_detail' hotel.id %}">
+                <div class="company">
+                  <img width="184" height="100" src="{{ MEDIA_URL }}{{ hotel.image }}"/>
+                  <div class="score">
+                    <div class="circle">
+                      <h2>{{ hotel.tag }}</h2>
+                    </div>
+                  </div>
+                </div>
+                <p><span class="key" title="{{ hotel.name }}">{{ hotel.name }}</span></p>
+              </a>
+            </li>
+            {% endfor %}
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <section>
+  <div class="module greybg">
+    <div class="wp">
+      <h1>热门景点</h1>
+      <div class="module3 eachmod">
+        <div class="module3_1 left">
+          <img width="228" height="463" src="{% static 'images/module3_1.jpg' %}"/>
+          <p class="fisrt_word">大牌来袭<br/>带你high</p>
+          <a class="more" href="{% url 'spots:spots_list' %}">查看更多景点 ></a>
+        </div>
+        <div class="right">
+          <ul>
+            {% for spot in spots %}
+            <li class="{% if forloop.counter|divisibleby:5 %}five{% endif %}">
+              <a href="{% url 'spots:spot_detail' spot.id %}">
+                <div class="company">
+                  <img width="184" height="100" src="{{ MEDIA_URL }}{{ spot.image }}"/>
+                  <div class="score">
+                    <div class="circle">
+                      <h2>{{ spot.tag }}</h2>
+                    </div>
+                  </div>
+                </div>
+                <p><span class="key" title="{{ spot.name }}">{{ spot.name }}</span></p>
+              </a>
+            </li>
+            {% endfor %}
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}

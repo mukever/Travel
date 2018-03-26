@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.db import models
+from DjangoUeditor.models import UEditorField
 
 from spots.models import CityDict
 # Create your models here.
@@ -10,9 +11,10 @@ class Hotel(models.Model):
     address = models.CharField(max_length=150, verbose_name='酒店地址')
     name = models.CharField(max_length=52, verbose_name='酒店名字')
     desc =  models.CharField(max_length=300, verbose_name='酒店描述')
-    detail = models.TextField(verbose_name='酒店详情')
+    detail = UEditorField(verbose_name='酒店详情',  upload_settings={"imageMaxSize":1204000},
+             settings={},command=None,blank=True)
     degree = models.CharField(choices=(('cj', '初级'), ('zj', '中级'), ('gj', '高级')), max_length=2, verbose_name='难度')
-    students = models.IntegerField(default=0, verbose_name='购买人数')
+    buy_nums = models.IntegerField(default=0, verbose_name='购买人数')
     fav_nums = models.IntegerField(default=0, verbose_name='收藏人数')
     image = models.ImageField(upload_to='courses/%Y/%m', verbose_name='封面图', max_length=100)
     click_nums = models.IntegerField(default=0, verbose_name='点击数')
@@ -43,11 +45,11 @@ class BannerHotel(Hotel):
 
 # 房间信息
 class Room(models.Model):
-    hotel = models.ForeignKey(Hotel, verbose_name='课程')
+    hotel = models.ForeignKey(Hotel, verbose_name='所属酒店')
     name = models.CharField(max_length=100, verbose_name='房间名称')
     desc = models.CharField(max_length=300, verbose_name='房间描述')
     price = models.IntegerField(default=0, verbose_name='房间价格')
-    detail = models.TextField(verbose_name='房间详情')
+    detail = UEditorField(verbose_name='房间详情')
     degree = models.CharField(choices=(('cj', '初级'), ('zj', '中级'), ('gj', '高级')), max_length=2, verbose_name='房型')
     nuy_nums = models.IntegerField(default=0, verbose_name='已经购买人数')
     fav_nums = models.IntegerField(default=0, verbose_name='收藏人数')

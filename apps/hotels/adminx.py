@@ -26,6 +26,8 @@ class HotelAdmin:
     #Inline # 添加课程的时候可以顺便添加章节、课程资源
     inlines = [RoomInline]
 
+    style_fields = {'detail': 'ueditor'}
+
     #重新在这里写一遍的原因是，避免数据重复
     def queryset(self):
         qs = super(HotelAdmin, self).queryset()
@@ -34,6 +36,7 @@ class HotelAdmin:
 
 
 class BannerHotelAdmin(object):
+    style_fields = {'detail': 'ueditor'}
     list_display = ['name', 'desc', 'detail', 'degree', 'fav_nums',
                     'click_nums', 'add_time']
     search_fields = ['name', 'desc', 'detail', 'degree',  'fav_nums',

@@ -55,7 +55,9 @@ INSTALLED_APPS = [
     'hotels',
     'users',
     'spots',
-
+    'DjangoUeditor',
+    'schedules',
+    'operation',
 ]
 
 # UserProfile 覆盖了 django 内置的 user 表
