@@ -74,9 +74,9 @@
               <ul class="imgs">
                 {% for banner_schedule in banner_schedules %}
                 <li>
-{#                  <a href="{% url 'schedules:schedule_detail' banner_course.id %}">#}
+                  <a href="{% url 'schedules:schedules_detail' banner_schedule.id %}">
                     <img width="470" height="300" src="{{ MEDIA_URL }}{{ banner_schedule.image }}"/>
-{#                  </a>#}
+                  </a>
                 </li>
                 {% endfor %}
 
@@ -87,7 +87,7 @@
           </div>
           {% for schedule in schedules %}
           <div class="module1_{{ forloop.counter|add:2 }} box">
-            <a href="{% url 'schedules:schedule_detail' schedule.id %}">
+            <a href="{% url 'schedules:schedules_detail' schedule.id %}">
               <img width="233" height="190" src="{{ MEDIA_URL }}{{ schedule.image }}"/>
             </a>
             <div class="des">

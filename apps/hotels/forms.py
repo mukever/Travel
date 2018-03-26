@@ -20,7 +20,7 @@ class UserAskForm(forms.ModelForm):
 
     class Meta:
         model = UserAsk
-        fields = ['name', 'mobile', 'schedule_name']
+        fields = ['name', 'mobile', 'course_name']
 
 
     # def clean_name(self):

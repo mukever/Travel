@@ -7,6 +7,6 @@ from .views import ScheduleListView,ScheduleDetailView
 urlpatterns = [
     # 课程列表页
     url(r'^list/$', ScheduleListView.as_view(), name='schedules_list'),
-    url(r'^detail/(?P<schedule_id>\d+)/$', ScheduleDetailView.as_view(), name='schedule_detail'),
+    url(r'^detail/(?P<schedule_id>\d+)/$', ScheduleDetailView.as_view(), name='schedules_detail'),
 
 ]

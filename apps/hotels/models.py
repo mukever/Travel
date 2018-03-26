@@ -16,7 +16,7 @@ class Hotel(models.Model):
     degree = models.CharField(choices=(('cj', '初级'), ('zj', '中级'), ('gj', '高级')), max_length=2, verbose_name='难度')
     buy_nums = models.IntegerField(default=0, verbose_name='购买人数')
     fav_nums = models.IntegerField(default=0, verbose_name='收藏人数')
-    image = models.ImageField(upload_to='courses/%Y/%m', verbose_name='封面图', max_length=100)
+    image = models.ImageField(upload_to='hotel/%Y/%m', verbose_name='封面图', max_length=100)
     click_nums = models.IntegerField(default=0, verbose_name='点击数')
     is_banner = models.BooleanField(default=False, verbose_name=u'是否是轮播图')
     category = models.CharField(default='高级', max_length=20, verbose_name='酒店类别')
@@ -53,7 +53,7 @@ class Room(models.Model):
     degree = models.CharField(choices=(('cj', '初级'), ('zj', '中级'), ('gj', '高级')), max_length=2, verbose_name='房型')
     nuy_nums = models.IntegerField(default=0, verbose_name='已经购买人数')
     fav_nums = models.IntegerField(default=0, verbose_name='收藏人数')
-    image = models.ImageField(upload_to='courses/%Y/%m', verbose_name='封面图', max_length=100)
+    image = models.ImageField(upload_to='hotelroom/%Y/%m', verbose_name='封面图', max_length=100)
     click_nums = models.IntegerField(default=0, verbose_name='点击数')
     add_time = models.DateTimeField(default=datetime.now, verbose_name='添加时间')
 

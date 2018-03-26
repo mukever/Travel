@@ -14,7 +14,7 @@ class Schedule(models.Model):
     learn_times = models.IntegerField(default=0, verbose_name='学习时长(分钟数)')
     buy_nums= models.IntegerField(default=0, verbose_name='购买人数')
     fav_nums = models.IntegerField(default=0, verbose_name='收藏人数')
-    image = models.ImageField(upload_to='courses/%Y/%m', verbose_name='封面图', max_length=100)
+    image = models.ImageField(upload_to='schedule/%Y/%m', verbose_name='封面图', max_length=100)
     click_nums = models.IntegerField(default=0, verbose_name='点击数')
     is_banner = models.BooleanField(default=False, verbose_name=u'是否是轮播图')
     category = models.CharField(default='后端', max_length=20, verbose_name='行程类别')

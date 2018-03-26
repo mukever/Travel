@@ -45,13 +45,13 @@ class ScheduleListView(View):
 
         return render(request, 'schedules-list.html', {
             'all_schedules': schedules,
-            'hot_hot_schedules': hot_schedules,
+            'hot_schedules': hot_schedules,
             'sort': sort,
         })
 #详情
 class ScheduleDetailView(View):
-    def get(self, request, course_id):
-        schedule = Spot.objects.get(id=int(course_id))
+    def get(self, request, schedule_id):
+        schedule = Schedule.objects.get(id=int(schedule_id))
 
         # 课程点击数 + 1
         schedule.click_nums += 1
@@ -61,7 +61,7 @@ class ScheduleDetailView(View):
         tag = schedule.tag
         relate_schedule = []
         if tag:
-            relate_schedule = Spot.objects.filter(tag=tag)[:2]
+            relate_schedule = Schedule.objects.filter(tag=tag)[:2]
 
         # 课程/机构收藏
         has_fav_schedule = False
@@ -72,7 +72,7 @@ class ScheduleDetailView(View):
         #     if UserFavorite.objects.filter(user=request.user, fav_id=course.course_org.id, fav_type=2):
         #         has_fav_org = True
 
-        return render(request, 'schedule-detail.html', {
+        return render(request, 'schedules-detail.html', {
             'schedule': schedule,
             'relate_schedule': relate_schedule,
             'has_fav_schedule': has_fav_schedule,

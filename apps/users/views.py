@@ -83,6 +83,10 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request):
         logout(request)
+        print("okkkkkk")
+        return HttpResponsePermanentRedirect(reverse('index'))
+    def post(self, request):
+        logout(request)
         return HttpResponsePermanentRedirect(reverse('index'))
 
 
@@ -299,7 +303,21 @@ class MyFavHotelView(LoginRequiredMixin, View):
          'org_list': fav_hotels,
      })
 
+# 我收藏酒店
+class MyFavSpotView(LoginRequiredMixin, View):
+    def get(self, request):
+        fav_hotels = UserFavorite.objects.filter(user=request.user, fav_type=2)
+        return render(request, 'usercenter-fav-spot.html', {
+            'org_list': fav_hotels,
+        })
 
+# 我收藏酒店
+class MyFavScheduleView(LoginRequiredMixin, View):
+    def get(self, request):
+        fav_hotels = UserFavorite.objects.filter(user=request.user, fav_type=2)
+        return render(request, 'usercenter-fav-schedule.html', {
+            'org_list': fav_hotels,
+        })
 # 我收藏的授课讲师
 # class MyFavTeacherView(LoginRequiredMixin, View):
 #     def get(self, request):
@@ -364,8 +382,6 @@ class IndexView(View):
         spots = Spot.objects.all()[:15]
 
         hotels = Hotel.objects.all()[:6]
-
-
         return render(request, 'index.html', {
             'all_banners': all_banners,
             'schedules': schedules,

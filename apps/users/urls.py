@@ -2,8 +2,9 @@ __author__ = 'zaxlct'
 __date__ = '2017/4/9 上午11:55'
 
 from django.conf.urls import url, include
-from .views import UserInfoView, UploadImageView, UpdatePwdView, SendEmailCodeView, UpdateEmailView
-from .views import ModelBackend,ModifyPwdView,MyMessageView
+from .views import UserInfoView, UploadImageView, UpdatePwdView, SendEmailCodeView, UpdateEmailView, MyFavSpotView, \
+    MyFavScheduleView
+from .views import MyMessageView
 from .views import MyHotelView,MyFavHotelView
 urlpatterns = [
     # 用户信息
@@ -27,6 +28,10 @@ urlpatterns = [
 
     # 我收藏
     url(r'^myfav/hotel/$', MyFavHotelView.as_view(), name='myfav_hotel'),
+    # 我收藏
+    url(r'^myfav/spot/$', MyFavSpotView.as_view(), name='myfav_spot'),
+    # 我收藏
+    url(r'^myfav/schedule/$', MyFavScheduleView.as_view(), name='myfav_schedule'),
 
 
 

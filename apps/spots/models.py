@@ -28,7 +28,7 @@ class Spot(models.Model):
     fav_nums = models.IntegerField(default=0, verbose_name='收藏数')
     visit_nums = models.IntegerField(default=0, verbose_name='参观人数')
     is_banner = models.BooleanField(default=False, verbose_name=u'是否是轮播图')
-    image = models.ImageField(default='', upload_to='org/%Y/%m', verbose_name='封面图', max_length=100)
+    image = models.ImageField(default='', upload_to='spot/%Y/%m', verbose_name='封面图', max_length=100)
     address = models.CharField(max_length=150, verbose_name='景区地址')
     city = models.ForeignKey(CityDict, verbose_name='所在城市')
     add_time = models.DateTimeField(default=datetime.now, verbose_name='添加时间')
@@ -65,7 +65,7 @@ class Ticket(models.Model):
     click_nums = models.IntegerField(default=0, verbose_name='点击数')
     fav_nums = models.IntegerField(default=0, verbose_name='收藏数')
     buy_nums = models.IntegerField(default=0, verbose_name='购买人数')
-    image = models.ImageField(default='', upload_to='teacher/%Y/%m', verbose_name='封面图', max_length=100)
+    image = models.ImageField(default='', upload_to='ticket/%Y/%m', verbose_name='封面图', max_length=100)
     add_time = models.DateTimeField(default=datetime.now, verbose_name='添加时间')
 
     class Meta:

@@ -6,7 +6,7 @@ from .models import Schedule, BannerSchedule
 
 
 class ScheduleAdmin:
-    style_fields = {'detail': 'ueditor'}
+
     list_display = ['name', 'desc', 'detail', 'degree', 'fav_nums',
                     'click_nums', 'add_time']
     search_fields = ['name', 'desc', 'detail', 'degree', 'fav_nums',
@@ -30,7 +30,7 @@ class ScheduleAdmin:
 
 
 class BannerScheduleAdmin(object):
-    style_fields = {'detail': 'ueditor'}
+
     list_display = ['name', 'desc', 'detail', 'degree', 'fav_nums',
                     'click_nums', 'add_time']
     search_fields = ['name', 'desc', 'detail', 'degree',  'fav_nums',
@@ -42,7 +42,7 @@ class BannerScheduleAdmin(object):
     # readonly_fields 和 exclude 的字段不要重复，否则会冲突
     readonly_fields = ['click_nums']
     exclude = ['fav_nums']
-
+    style_fields = {'detail': 'ueditor'}
 
     #把轮播图从 User model 里转移到 Course model 里
     def queryset(self):

@@ -1,0 +1,14 @@
+{% extends 'spots-base.html' %}
+{% load staticfiles %}
+{% block custom_title %}酒店介绍{% endblock %}
+{% block page_path %}酒店介绍详情{% endblock %}
+{% block right_form %}
+<div class="right companycenter layout">
+  <div class="head">
+    <h1>机构介绍</h1>
+  </div>
+  <p class="des">
+      {{ spot.desc }}
+  </p>
+</div>
+{% endblock %}

@@ -88,7 +88,9 @@
               <li class="{% ifequal request.path|slice:'12' '/org/teacher' %}active{% endifequal %}">
                 <a href="{% url 'hotels:hotels_list' %}">酒店</a>
               </li>
-              <li class="{% ifequal request.path|slice:'9' '/org/list' %}active{% endifequal %}"><a href="{% url 'spots:spots_list' %}">景区</a></li>
+              <li class="{% ifequal request.path|slice:'9' '/org/list' %}active{% endifequal %}">
+                  <a href="{% url 'spots:spots_list' %}">景区</a>
+              </li>
             </ul>
           </div>
         </div>

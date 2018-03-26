@@ -155,66 +155,66 @@
 {% block custom_js %}
 {% endblock %}
 
-{#<script>#}
-{#  // 课程取消收藏#}
-{#  $('.jsDeleteFav_course').on('click', function () {#}
-{#    var _this = $(this),#}
-{#      favid = _this.attr('data-favid');#}
-{#    $.ajax({#}
-{#      cache: false,#}
-{#      type: "POST",#}
-{#      url: "{% url 'org:add_fav' %}",#}
-{#      data: {#}
-{#        fav_type: 1,#}
-{#        fav_id: favid,#}
-{#        csrfmiddlewaretoken: "{{ csrf_token }}",#}
-{#      },#}
-{#      async: true,#}
-{#      success: function (data) {#}
-{#        Dml.fun.winReload();#}
-{#      }#}
-{#    });#}
-{#  });#}
-{##}
-{#  $('.jsDeleteFav_teacher').on('click', function () {#}
-{#    var _this = $(this),#}
-{#      favid = _this.attr('data-favid');#}
-{#    $.ajax({#}
-{#      cache: false,#}
-{#      type: "POST",#}
-{#      url: "{% url 'org:add_fav' %}",#}
-{#      data: {#}
-{#        fav_type: 3,#}
-{#        fav_id: favid,#}
-{#        csrfmiddlewaretoken: "{{ csrf_token }}",#}
-{#      },#}
-{#      async: true,#}
-{#      success: function (data) {#}
-{#        Dml.fun.winReload();#}
-{#      }#}
-{#    });#}
-{#  });#}
-{##}
-{##}
-{#  $('.jsDeleteFav_org').on('click', function () {#}
-{#    var _this = $(this),#}
-{#      favid = _this.attr('data-favid');#}
-{#    $.ajax({#}
-{#      cache: false,#}
-{#      type: "POST",#}
-{#      url: "{% url 'org:add_fav' %}",#}
-{#      data: {#}
-{#        fav_type: 2,#}
-{#        fav_id: favid,#}
-{#        csrfmiddlewaretoken: "{{ csrf_token }}",#}
-{#      },#}
-{#      async: true,#}
-{#      success: function (data) {#}
-{#        Dml.fun.winReload();#}
-{#      }#}
-{#    });#}
-{#  });#}
-{#</script>#}
+<script>
+  // 课程取消收藏
+  $('.jsDeleteFav_sch').on('click', function () {
+    var _this = $(this),
+      favid = _this.attr('data-favid');
+    $.ajax({
+      cache: false,
+      type: "POST",
+      url: "{% url 'hotels:add_fav' %}",
+      data: {
+        fav_type: 1,
+        fav_id: favid,
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+      },
+      async: true,
+      success: function (data) {
+        Dml.fun.winReload();
+      }
+    });
+  });
+
+  $('.jsDeleteFav_spot').on('click', function () {
+    var _this = $(this),
+      favid = _this.attr('data-favid');
+    $.ajax({
+      cache: false,
+      type: "POST",
+      url: "{% url 'hotels:add_fav' %}",
+      data: {
+        fav_type: 3,
+        fav_id: favid,
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+      },
+      async: true,
+      success: function (data) {
+        Dml.fun.winReload();
+      }
+    });
+  });
+
+
+  $('.jsDeleteFav_hotel').on('click', function () {
+    var _this = $(this),
+      favid = _this.attr('data-favid');
+    $.ajax({
+      cache: false,
+      type: "POST",
+      url: "{% url 'hotels:add_fav' %}",
+      data: {
+        fav_type: 2,
+        fav_id: favid,
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+      },
+      async: true,
+      success: function (data) {
+        Dml.fun.winReload();
+      }
+    });
+  });
+</script>
 
 
 <script>
