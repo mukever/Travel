@@ -7,8 +7,8 @@
         <div class="wp">
             <ul class="crumbs">
                 <li><a href="{% url 'index' %}">首页</a>></li>
-                <li><a href="{% url 'spots:spots_list' %}">公开课程:{{ room.name }}</a>></li>
-                <li>课程详情</li>
+                <li><a href="{% url 'spots:spots_list' %}">景点:{{ room.name }}</a>></li>
+                <li>详情</li>
             </ul>
         </div>
     </section>
@@ -33,10 +33,12 @@
               <span class="fr">学习人数：{{ room.students }}</span>
             </div>
             <ul class="parameter">
+            <!--
               <li><span class="pram word3">时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;长：</span><span>{{ room.learn_times }}</span></li>
               <li><span class="pram word3">章&nbsp;节&nbsp;数：</span><span>{{ room.get_zj_nums }}</span></li>
-              <li><span class="pram word3">课程类别：</span><span title="">{{ room.category }}</span></li>
-              <li class="piclist"><span class="pram word4">学习用户：</span>
+             -->
+              <li><span class="pram word3">景点类别：</span><span title="">{{ room.category }}</span></li>
+              <li class="piclist"><span class="pram word4">用户：</span>
                 {% for user_room in room.get_learn_users %}
                   <span class="pic"><img width="40" height="40" src="{{ MEDIA_URL }}{{ user_room.user.image}}"/></span>
                 {% endfor %}
@@ -56,10 +58,7 @@
           </div>
         </div>
         <div class="right">
-          <div class="head">
-            <h1>授课机构</h1>
-            <p>世界名校，课程权威</p>
-          </div>
+
           <div class="pic">
             <a href="/company/14/">
               <img width="150" height="80" src="{{ MEDIA_URL }}{{ room.room_org.image }}"/>
@@ -100,7 +99,7 @@
       <div class="left layout">
         <div class="head">
           <ul class="tab_header">
-            <li class="active">课程详情</li>
+            <li class="active">详情</li>
           </ul>
         </div>
         <div class="tab_cont tab_cont1">
@@ -115,7 +114,7 @@
         </div>
       </div>
       <div class="right layout">
-        <div class="head">相关课程推荐</div>
+        <div class="head">相关推荐</div>
         <div class="group_recommend">
           {% for relate_room in relate_rooms %}
             <dl>

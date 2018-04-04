@@ -14,9 +14,9 @@
         <div class="wp">
             <ul class="crumbs">
                 <li><a href="{% url 'index' %}">首页</a>></li>
-                <li><a href="{% url 'courses:course_list' %}">公开课程</a> > </li>
-                <li><a href="{% url 'courses:course_detail' course.id %}">课程详情</a> > </li>
-                <li>课程评论</li>
+                <li><a href="{% url 'courses:course_list' %}">行程</a> > </li>
+                <li><a href="{% url 'courses:course_detail' course.id %}">行程详情</a> > </li>
+                <li>行程评论</li>
             </ul>
         </div>
     </section>
@@ -124,13 +124,10 @@
               </div>
               <div class="course-info-tip">
                 <dl class="first">
-                  <dt>课程须知</dt>
+                  <dt>行程须知</dt>
                   <dd class="autowrap">{{ course.youneed_konw }}</dd>
                 </dl>
-                <dl>
-                  <dt>老师告诉你能学到什么？</dt>
-                  <dd class="autowrap">{{ course.teacher_tell }}</dd>
-                </dl>
+
               </div>
             </div>
 

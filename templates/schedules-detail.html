@@ -7,8 +7,8 @@
         <div class="wp">
             <ul class="crumbs">
                 <li><a href="{% url 'index' %}">首页</a>></li>
-                <li><a href="{% url 'schedules:schedules_list' %}">公开课程:{{ schedule.name }}</a>></li>
-                <li>课程详情</li>
+                <li><a href="{% url 'schedules:schedules_list' %}">行程:{{ schedule.name }}</a>></li>
+                <li>行程详情</li>
             </ul>
         </div>
     </section>
@@ -35,7 +35,7 @@
             <ul class="parameter">
               <li><span class="pram word3">时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;长：</span><span>{{ schedule.learn_times }}</span></li>
               <li><span class="pram word3">章&nbsp;节&nbsp;数：</span><span>{{ schedule.get_zj_nums }}</span></li>
-              <li><span class="pram word3">课程类别：</span><span title="">{{ schedule.category }}</span></li>
+              <li><span class="pram word3">行程类别：</span><span title="">{{ schedule.category }}</span></li>
               <li class="piclist"><span class="pram word4">学习用户：</span>
                 {% for user_schedule in schedule.get_learn_users %}
                   <span class="pic"><img width="40" height="40" src="{{ MEDIA_URL }}{{ user_schedule.user.image}}"/></span>
@@ -57,7 +57,7 @@
         </div>
  <div class="right">
         <div class="head">
-            <h1>   相关课程推荐</h1>
+            <h1>   相关推荐</h1>
         </div>
         <div class="group_recommend">
           {% for relate_schedule in relate_schedules %}
@@ -90,7 +90,7 @@
       <div class="left layout">
         <div class="head">
           <ul class="tab_header">
-            <li class="active">课程详情</li>
+            <li class="active">详情</li>
           </ul>
         </div>
         <div class="tab_cont tab_cont1">

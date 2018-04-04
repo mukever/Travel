@@ -58,7 +58,7 @@ class UserMessage(models.Model):
 
 class UserHotel(models.Model):
     user = models.ForeignKey(UserProfile, verbose_name='用户')
-    hotel = models.ForeignKey(Hotel, verbose_name='课程')
+    hotel = models.ForeignKey(Hotel, verbose_name='酒店')
     add_time = models.DateTimeField(default=datetime.now, verbose_name='添加时间')
 
     class Meta:
