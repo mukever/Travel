@@ -30,7 +30,9 @@
             <span class="key">{{ schedule.desc }}</span>
             <div class="prize">
               <span class="fl">难度：<i class="key">{{ schedule.get_degree_display }}</i></span>
+                <!--
               <span class="fr">学习人数：{{ schedule.students }}</span>
+              -->
             </div>
             <ul class="parameter">
             <!--
@@ -53,7 +55,7 @@
                   收藏
                 {% endif %}
               </div>
-              <div class="buy btn"><a style="color: white; display: block;" href="{% url 'schedules:schedules_detail' schedule.id %}">开始学习</a></div>
+              <div class="buy btn"><a style="color: white; display: block;" href="{% url 'schedules:schedules_detail' schedule.id %}">开始我的行程</a></div>
             </div>
           </div>
         </div>
