@@ -1,6 +1,6 @@
 {% extends 'usercenter-base.html' %}
 {% load staticfiles %}
-{% block title %}个人信息-慕学在线网{% endblock %}
+{% block title %}个人信息-驴友在线网{% endblock %}
 
 {% block custom_bread %}
 <section>
@@ -37,18 +37,33 @@
               </label>
               {% csrf_token %}
             </form>
-            <div style="border-top:1px solid #eaeaea;margin-top:30px;">
-              <a class="button btn-green btn-w100" id="jsUserResetPwd" style="margin:80px auto;width:100px;">修改密码</a>
-            </div>
+{#            <div style="border-top:1px solid #eaeaea;margin-top:30px;">#}
+{#                 <a classs="button btn-green btn-w100" id="jsUserResetPwd" style="margin:80px auto;width:100px;">修改密码</a>#}
+{##}
+{#            </div>#}
           </div>
           <form class="perinform" id="jsEditUserForm" autocomplete="off">
             <ul class="right">
               <li>昵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：
-                <input type="text" name="nick_name" id="nick_name" value="{{ request.user.nick_name }}" maxlength="10">
+                <input type="text" name="nick_name" id="nick_name"
+                       {% ifnotequal request.user.nick_name  None %}
+                            value="{{  request.user.nick_name   }}" maxlength="10"
+                      {% endifnotequal %}
+
+                        {% ifequal request.user.nick_name  None %}
+                           placeholder="请输入昵称"
+                      {% endifequal %}
+                />
                 <i class="error-tips"></i>
+
               </li>
               <li>生&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日：
-                <input type="text" id="birth_day" name="birthday" value="{{ request.user.birthday }}" readonly="readonly"/>
+                <input type="text" id="birth_day" name="birthday"
+
+                       {% ifnotequal  request.user.birthday  None %}
+                            value="{{   request.user.birthday   }}" readonly="readonly"
+                      {% endifnotequal %}
+                />
                 <i class="error-tips"></i>
               </li>
               <li>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：
@@ -64,7 +79,7 @@
               </li>
               <li>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱：
                 <input class="borderno" type="text" name="email" readonly="readonly" value="{{ request.user.email }}"/>
-                <span class="green changeemai_btn">[修改]</span>
+
               </li>
               <li class="button heibtn">
                 <input type="button" id="jsEditUserBtn" value="保存">

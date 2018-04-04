@@ -44,6 +44,7 @@ class UserFavorite(models.Model):
 
 class UserMessage(models.Model):
     # 如果 为 0 代表全局消息，否则就是用户的 ID
+
     user = models.IntegerField(default=0, verbose_name='接受用户')
     message = models.CharField(max_length=500, verbose_name='消息内容')
     has_read = models.BooleanField(default=False, verbose_name='是否已读')

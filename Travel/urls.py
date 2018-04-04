@@ -86,3 +86,4 @@ else:
     from Travel.settings import STATIC_ROOT
     # 配置静态文件访问处理
     urlpatterns.append(url(r'^static/(?P<path>.*)$', serve, {'document_root': STATIC_ROOT}))
+    urlpatterns.append(url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}))

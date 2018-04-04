@@ -19,17 +19,20 @@ def send_register_email(email, send_type='register'):
     email_record.save()
 
     if send_type == 'register':
-        email_title = '慕雪在线网注册激活链接'
+        email_title = '驴友在线网注册激活链接'
         # http://118.89.105.65 是我自己的服务器 IP 地址，你部署的时候，请换成你自己的 IP 或 域名
-        email_body = '请点击下面的链接激活你的账号：http://127.0.0.1:8000/active/{0}（如果是线上环境，请把 http://127.0.0.1:8000 替换成 http://118.89.105.65 ）'.format(code)
+        email_body = '请点击下面的链接激活你的账号：http://127.0.0.1:8000/active/{0}' \
+                     '\n（如果是线上环境，请点击下面的链接激活你的账号: http://101.200.46.167:8000/active/{1} ）'.format(code,code)
         send_status = send_mail(email_title, email_body, EMAIL_FROM, [email])
         if send_status:
             # TODO
             print('发送成功')
 
     elif send_type == 'forget':
-        email_title = '慕雪在线网密码重置链接'
-        email_body = '请点击下面的链接重置你的密码：http://127.0.0.1:8000/reset/{0}（如果是线上环境，请把 http://127.0.0.1:8000 替换成 http://118.89.105.65 ）'.format(code)
+        email_title = '驴友在线网密码重置链接'
+        email_body = '请点击下面的链接重置你的密码：' \
+                     'http://127.0.0.1:8000/reset/{0}' \
+                     '\n（如果是线上环境，请点击下面的链接激活你的账号: http://101.200.46.167:8000/reset/{1}）'.format(code,code)
 
         send_status = send_mail(email_title, email_body, EMAIL_FROM, [email])
         if send_status:

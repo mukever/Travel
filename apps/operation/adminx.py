@@ -14,9 +14,9 @@ class UserAskAdmin:
 
 # 用户收藏
 class UserFavoriteAdmin:
-    list_display = ['user', 'fav_id', 'fav_type', 'add_time']
-    search_fields = ['user', 'fav_id', 'fav_type']
-    list_filter = ['user__nick_name', 'fav_id', 'fav_type', 'add_time']
+    list_display = ['user_id__email', 'fav_id', 'fav_type', 'add_time']
+    search_fields = ['user_id__email', 'fav_id', 'fav_type']
+    list_filter = ['user_id__email', 'fav_id', 'fav_type', 'add_time']
 
 # 用户消息
 class UserMessageAdmin:

@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-  <title>慕学网首页</title>
+  <title>驴友网首页</title>
   <link rel="stylesheet" href="{% static 'css/reset.css' %}">
   <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
@@ -13,7 +13,7 @@
 <header>
   <div class="c-box fff-box">
     <div class="wp header-box">
-      <p class="fl hd-tips">慕学网，在线学习平台！</p>
+      <p class="fl hd-tips">驴友网在线</p>
       <ul class="fr hd-bar">
         <li>服务电话：<span>33333333</span></li>
         <li><a href="{% url 'login' %}">[登录]</a></li>
@@ -33,22 +33,28 @@
       <div class="fl slide">
         <div class="imgslide">
           <ul class="imgs">
-            <li><a href=""><img width="483" height="472" src="{% static 'images/57a801860001c34b12000460.jpg' %}"/></a>
+            <li><a href=""><img width="483" height="472" src="{% static 'images/1.jpg' %}"/></a>
             </li>
-            <li><a href=""><img width="483" height="472" src="{% static 'images/57a801860001c34b12000460.jpg' %}"/></a>
-            </li>
-            <li><a href=""><img width="483" height="472" src="{% static 'images/57a801860001c34b12000460.jpg' %}"/></a>
-            </li>
+
           </ul>
         </div>
-        <div class="unslider-arrow prev"></div>
-        <div class="unslider-arrow next"></div>
       </div>
       <div class="fl form-box">
         <h2>忘记密码</h2>
         <form id="jsFindPwdForm" method="post" action="{% url 'forget_pwd' %}" autocomplete="off">
           <div class="form-group marb20 {% if forget_form.errors.email %} errorput {% endif %} ">
-            <input type="text" id="account" name="email" value="{{ forget_form.email.value }}" placeholder="邮箱"/>
+            <input type="text" id="account" name="email"
+
+               {% ifnotequal forget_form.email.value None %}
+                            value="{{  forget_form.email.value  }}"
+                      {% endifnotequal %}
+
+                      {% ifequal forget_form.email.value  None %}
+
+                           placeholder="邮箱"
+                      {% endifequal %}
+
+            />
           </div>
           <div class="form-group captcha1 marb38 {% if forget_form.errors.captcha %} errorput {% endif %} ">
             <label>验&nbsp;证&nbsp;码</label>

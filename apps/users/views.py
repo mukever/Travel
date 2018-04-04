@@ -83,7 +83,6 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request):
         logout(request)
-        print("okkkkkk")
         return HttpResponsePermanentRedirect(reverse('index'))
     def post(self, request):
         logout(request)
@@ -115,7 +114,7 @@ class RegisterView(View):
             #注册时发送一条消息
             user_message = UserMessage()
             user_message.user = user_profile.id
-            user_message.message = '欢迎注册慕学在线网！'
+            user_message.message = '欢迎注册驴友在线网！'
             user_message.save()
 
             send_register_email(email, 'register')
@@ -176,10 +175,13 @@ class ModifyPwdView(View):
             pwd2 = request.POST.get('password2', '')
             if pwd1 != pwd2:
                 return render(request, 'password_reset.html', {'email': email, 'msg': '密码不一致！'})
-            user = UserProfile.objects.get(email=email)
-            user.password = make_password(pwd2)
-            user.save()
-            return render(request, 'login.html')
+            try:
+                user = UserProfile.objects.get(email=email)
+                user.password = make_password(pwd2)
+                user.save()
+                return render(request, 'login.html')
+            except  UserProfile.DoesNotExist:
+                return render(request, 'password_reset.html', {'email': email, 'msg': '用户不存在！'})
         return render(request, 'password_reset.html', {'email': email, 'modify_form': modify_form})
 
 
@@ -372,7 +374,7 @@ class MyMessageView(LoginRequiredMixin, View):
         })
 
 
-# 慕学在线网首页
+# 驴友在线网首页
 class IndexView(View):
     def get(self, request):
         # 取出轮播图

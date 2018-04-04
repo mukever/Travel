@@ -11,8 +11,8 @@ class BaseSetting:
 
 
 class GlobalSettings:
-    site_title = '慕学后台管理系统'
-    site_footer = '慕学在线网'
+    site_title = '驴友后台管理系统'
+    site_footer = '驴友在线网'
     menu_style = 'accordion'
 # ------
 

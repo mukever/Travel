@@ -104,7 +104,7 @@ WSGI_APPLICATION = 'Travel.wsgi.application'
 DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'travel',
+        'NAME': 'trave1',
         'USER': 'root',
         'PASSWORD': '123456',
         'HOST': 'localhost',
