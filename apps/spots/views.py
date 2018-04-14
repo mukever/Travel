@@ -139,13 +139,13 @@ class AddFavView(View):
         fav_type = int(request.POST.get('fav_type', 0))
 
         res = dict()
-
+        print(fav_id, fav_type)
         if not request.user.is_authenticated():
             res['status'] = 'fail'
             res['msg'] = '用户未登录'
             return HttpResponse(json.dumps(res), content_type='application/json')
         else:
-            print(fav_id, fav_type)
+
             user_fav = UserFavorite()
             if fav_id and fav_type:
                 user_fav.user = request.user
