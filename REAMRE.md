@@ -8,6 +8,9 @@
 3.Mysql 数据库    （百度）    数据库密码为123456
 4.Navicat for mysql  （百度）
 
+navicat 使用new.sql   导入数据库
+
+
 下载源码包  https://github.com/mukever/Travel.git
 
 使用navicat 创建名为new 的数据库
