@@ -110,6 +110,7 @@ class AddFavView(View):
             res['msg'] = '用户未登录'
             return HttpResponse(json.dumps(res), content_type='application/json')
         else:
+            print(fav_id, fav_type)
             user_fav = UserFavorite()
             if fav_id and fav_type:
                 user_fav.user = request.user
