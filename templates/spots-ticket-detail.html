@@ -125,7 +125,7 @@
                             current_elem.text(data.msg)
                         }
                     } else if (data.status == 'success') {
-                        current_elem.text(data.msg);
+                        {#current_elem.text(data.msg);#}
                         alert(data.msg)
                     }
                 },
