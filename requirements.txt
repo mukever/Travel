@@ -16,6 +16,7 @@ olefile==0.45.1
 openpyxl==2.5.1
 Pillow==4.0.0
 PyMySQL==0.8.0
+pytz==2018.3
 PyYAML==3.12
 six==1.11.0
 sqlparse==0.2.4
