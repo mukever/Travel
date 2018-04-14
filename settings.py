@@ -104,7 +104,7 @@ WSGI_APPLICATION = 'Travel.wsgi.application'
 DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'trival',
+        'NAME': 'new',
         'USER': 'root',
         'PASSWORD': '123456',
         'HOST': 'localhost',
@@ -156,7 +156,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # 把这些文件放到一起是为了用 apache/nginx 等部署的时候更方便
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
-    # os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'media'),
 ]
 EMAIL_HOST = 'smtp.163.com'
