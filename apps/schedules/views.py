@@ -25,7 +25,7 @@ class ScheduleListView(View):
         #课程搜索
         search_keywords = request.GET.get('keywords', '')
         if search_keywords:
-            all_courses = all_schedules.filter(
+            all_schedules = all_schedules.filter(
                 Q(name__icontains=search_keywords) |
                 Q(desc__icontains=search_keywords) |
                 Q(detail__icontains=search_keywords)
@@ -34,9 +34,9 @@ class ScheduleListView(View):
         # 课程排序
         sort = request.GET.get('sort', '')
         if sort == 'fav_nums':
-            all_courses = all_schedules.order_by('-fav_nums')
+            all_schedules = all_schedules.order_by('-fav_nums')
         elif sort == 'hot':
-            all_courses = all_schedules.order_by('-click_nums')
+            all_schedules = all_schedules.order_by('-click_nums')
 
         # 对课程进行分页
         try:
@@ -136,6 +136,7 @@ class AddFavView(View):
                 user_spot.user = user_fav.user
                 user_spot.spot = Ticket.objects.filter(id=user_fav.fav_id).first()
                 user_spot.save()
+
             user_message = UserMessage()
             user_message.user = user_fav.user.id
             user_message.message = message_info

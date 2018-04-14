@@ -24,10 +24,10 @@ class HotelListView(View):
         all_hotels = Hotel.objects.all().order_by('-add_time')
         hot_hotels = Hotel.objects.all().order_by('-click_nums')[:6]
 
-        #课程搜索
+        #搜索
         search_keywords = request.GET.get('keywords', '')
         if search_keywords:
-            all_courses = all_hotels.filter(
+            all_hotels = all_hotels.filter(
                 Q(name__icontains=search_keywords) |
                 Q(desc__icontains=search_keywords) |
                 Q(detail__icontains=search_keywords)
@@ -37,7 +37,7 @@ class HotelListView(View):
             all_hotels = all_hotels.filter(category=request.GET.get('ct'))
         if request.GET.get('city') is not None and request.GET.get('city') != '':
             all_hotels = all_hotels.filter(city=request.GET.get('city'))
-        print(all_hotels.__len__())
+        # print(all_hotels.__len__())
         sort = request.GET.get('sort', '')
         if sort == 'visit':
             all_hotels = all_hotels.order_by('-visit_nums')

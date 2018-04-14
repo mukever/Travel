@@ -68,10 +68,10 @@
                             <span class="selectOption" id="jsSelectOption" data-value="schedule">
                                 行程
                             </span>
-              <ul class="selectMenu" id="jsSelectMenu">
-                <li data-value="schedule">行程</li>
-                <li data-value="spot">景区</li>
+               <ul class="selectMenu" id="jsSelectMenu">
+                  <li data-value="schedule"> 行程</li>
                 <li data-value="hotel">酒店</li>
+                <li data-value="spot">景区</li>
               </ul>
             </div>
             <input id="search_keywords" class="fl" type="text" value="" placeholder="请输入搜索内容"/>
@@ -154,130 +154,6 @@
 {% block custom_js %}
 {% endblock %}
 
-<script>
-  // 课程取消收藏
-  $('.jsDeleteFav_sch').on('click', function () {
-    var _this = $(this),
-      favid = _this.attr('data-favid');
-    $.ajax({
-      cache: false,
-      type: "POST",
-      url: "{% url 'hotels:add_fav' %}",
-      data: {
-        fav_type: 1,
-        fav_id: favid,
-        csrfmiddlewaretoken: "{{ csrf_token }}",
-      },
-      async: true,
-      success: function (data) {
-        Dml.fun.winReload();
-      }
-    });
-  });
 
-  $('.jsDeleteFav_spot').on('click', function () {
-    var _this = $(this),
-      favid = _this.attr('data-favid');
-    $.ajax({
-      cache: false,
-      type: "POST",
-      url: "{% url 'hotels:add_fav' %}",
-      data: {
-        fav_type: 3,
-        fav_id: favid,
-        csrfmiddlewaretoken: "{{ csrf_token }}",
-      },
-      async: true,
-      success: function (data) {
-        Dml.fun.winReload();
-      }
-    });
-  });
-
-
-  $('.jsDeleteFav_hotel').on('click', function () {
-    var _this = $(this),
-      favid = _this.attr('data-favid');
-    $.ajax({
-      cache: false,
-      type: "POST",
-      url: "{% url 'hotels:add_fav' %}",
-      data: {
-        fav_type: 2,
-        fav_id: favid,
-        csrfmiddlewaretoken: "{{ csrf_token }}",
-      },
-      async: true,
-      success: function (data) {
-        Dml.fun.winReload();
-      }
-    });
-  });
-
-
-</script>
-
-
-<script>
-  var shareUrl = '',
-    shareText = '',
-    shareDesc = '',
-    shareComment = '';
-  $(function () {
-    $(".bdsharebuttonbox a").mouseover(function () {
-      var type = $(this).attr('data-cmd'),
-        $parent = $(this).parent('.bdsharebuttonbox'),
-        fxurl = $parent.attr('data-url'),
-        fxtext = $parent.attr('data-text'),
-        fxdesc = $parent.attr('data-desc'),
-        fxcomment = $parent.attr('data-comment');
-      switch (type) {
-        case 'tsina':
-        case 'tqq':
-        case 'renren':
-          shareUrl = fxurl;
-          shareText = fxdesc;
-          shareDesc = '';
-          shareComment = '';
-          break;
-        default :
-          shareUrl = fxurl;
-          shareText = fxtext;
-          shareDesc = fxdesc;
-          shareComment = fxcomment;
-          break;
-      }
-    });
-  });
-  function SetShareUrl(cmd, config) {
-    if (shareUrl) {
-      config.bdUrl = "" + shareUrl;
-    }
-    if (shareText) {
-      config.bdText = shareText;
-    }
-    if (shareDesc) {
-      config.bdDesc = shareDesc;
-    }
-    if (shareComment) {
-      config.bdComment = shareComment;
-    }
-
-    return config;
-  }
-  window._bd_share_config = {
-    "common": {
-      "onBeforeClick": SetShareUrl,
-      "bdPic": "",
-      "bdMini": "2",
-      "searchPic": "1",
-      "bdMiniList": false
-    },
-    "share": {
-      "bdSize": "16"
-    }
-  };
-  with (document)0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com{% static '' %}api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
-</script>
 </body>
 </html>
