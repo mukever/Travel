@@ -113,13 +113,14 @@
                 type: "POST",
                 url: "{% url 'spots:add_fav' %}",
                 data: {'fav_id': fav_id, 'fav_type': fav_type},
-                async: true,
+                async: false,
                 beforeSend: function (xhr, settings) {
                     xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
                 },
                 success: function (data) {
                     if (data.status == 'fail') {
                         if (data.msg == '用户未登录') {
+                             window.event.returnValue=false
                             window.location.href = "{% url 'login' %}";
                         } else {
                             current_elem.text(data.msg)
@@ -130,7 +131,7 @@
                     }
                 },
                 error: function (error) {
-                     alert("请登录")
+                     alert("服务器出错，购买失败")
                 }
             });
         }

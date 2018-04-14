@@ -152,7 +152,7 @@ class AddFavView(View):
             self.set_fav_nums(fav_type, fav_id, 1)
 
             # 发送一条消息
-            message_info = ''
+            message_info = '用户未登录'
             if fav_type == 1:
                 message_info = '恭喜您购买 ' + Schedule.objects.filter(id=user_fav.fav_id).first().name + ' 行程成功，祝你出行愉快'
                 user_schedule = UserSchedule()
