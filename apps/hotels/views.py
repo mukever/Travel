@@ -143,6 +143,7 @@ class AddFavView(View):
             return HttpResponse(json.dumps(res), content_type='application/json')
         else:
             user_fav = UserFavorite()
+            print(fav_id,fav_type)
             if fav_id and fav_type:
                 user_fav.user = request.user
                 user_fav.fav_id = fav_id
