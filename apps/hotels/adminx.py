@@ -11,11 +11,11 @@ class RoomInline:
 
 class HotelAdmin:
 
-    list_display = ['name', 'desc', 'detail', 'degree', 'fav_nums',
+    list_display = ['name', 'desc', 'detail', 'category', 'fav_nums',
                     'click_nums', 'add_time']
-    search_fields = ['name', 'desc', 'detail', 'degree', 'fav_nums',
+    search_fields = ['name', 'desc', 'detail', 'category', 'fav_nums',
                     'click_nums']
-    list_filter = ['name', 'desc', 'detail', 'degree', 'fav_nums', 'click_nums', 'add_time']
+    list_filter = ['name', 'desc', 'detail', 'category', 'fav_nums', 'click_nums', 'add_time']
 
     ordering = ['-click_nums']
 
@@ -37,11 +37,11 @@ class HotelAdmin:
 
 class BannerHotelAdmin(object):
     style_fields = {'detail': 'ueditor'}
-    list_display = ['name', 'desc', 'detail', 'degree', 'fav_nums',
+    list_display = ['name', 'desc', 'detail', 'category', 'fav_nums',
                     'click_nums', 'add_time']
-    search_fields = ['name', 'desc', 'detail', 'degree',  'fav_nums',
+    search_fields = ['name', 'desc', 'detail', 'category',  'fav_nums',
                     'click_nums']
-    list_filter = ['name', 'desc', 'detail', 'degree', 'fav_nums',
+    list_filter = ['name', 'desc', 'detail', 'category', 'fav_nums',
                     'click_nums', 'add_time']
     ordering = ['-click_nums']
 

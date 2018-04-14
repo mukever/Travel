@@ -9,6 +9,7 @@
   </div>
   <p class="des">
       {{ hotel.desc }}
+       <p>{% autoescape off %}{{ hotel.detail }}{% endautoescape %}</p>
   </p>
 </div>
 {% endblock %}

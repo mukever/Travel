@@ -21,7 +21,7 @@
           <ul class="tab_header">
             <li {% ifequal sort '' %} class="active"{% endifequal %}><a href="?sort=">最新</a></li>
             <li {% ifequal sort 'hot' %} class="active"{% endifequal %}><a href="?sort=hot">最热门</a></li>
-            <li {% ifequal sort 'students' %} class="active"{% endifequal %}><a href="?sort=students">参与人数</a></li>
+            <li {% ifequal sort 'fav_nums' %} class="active"{% endifequal %}><a href="?sort=fav_nums">参与人数</a></li>
           </ul>
         </div>
         <div id="inWindow">
@@ -39,11 +39,13 @@
                     <h2>{{ course.name }}</h2>
                   </a>
 {#                  <span class="fl">时长：<i class="key">{{ course.learn_times }}</i></span>#}
-                  <span class="fr">参与人数：{{ course.students }}&nbsp;&nbsp;</span>
+                  <span class="fr">参与人数：{{ course.fav_nums }}&nbsp;&nbsp;</span>
                 </div>
                 <div class="bottom">
-                  <a href="{% url 'schedules:schedules_detail' course.id %}"><span class="fl">来自{{ course.course_org.name }}</span></a>
-                  <span class="star fr  notlogin" data-favid="15">{{ course.fav_nums }}</span>
+                  <a href="{% url 'schedules:schedules_detail' course.id %}">
+                      <span class="fl">来自{{ course.city}}</span>
+                  </a>
+                  <span class="star fr  notlogin" data-favid="15">{{ course.click_nums }}</span>
                 </div>
               </div>
             {% endfor %}

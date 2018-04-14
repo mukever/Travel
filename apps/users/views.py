@@ -14,11 +14,10 @@ from .forms import LoginForm, RegisterForm, ForgetForm, ModifyPwdForm, UploadIma
 from utils.email_send import send_register_email
 from utils.mixin_utils import LoginRequiredMixin
 from operation.models import UserMessage
-from hotels.models import Hotel,BannerHotel
-from spots.models import Spot,BannerSpot
+from hotels.models import Hotel, BannerHotel, Room
+from spots.models import Spot, BannerSpot, Ticket
 from schedules.models import Schedule,BannerSchedule
 from operation.models import UserHotel,UserSchedule,UserSpot
-from operation.models import SpotComments,ScheduleComments,HotelComments
 from operation.models import UserFavorite
 import json
 
@@ -288,7 +287,7 @@ class UpdateEmailView(LoginRequiredMixin, View):
         return HttpResponse(json.dumps(res), content_type='application/json')
 
 
-# 我的酒店
+
 class MyHotelView(LoginRequiredMixin, View):
     def get(self, request):
      user_hotel = UserHotel.objects.filter(user=request.user)
@@ -297,62 +296,84 @@ class MyHotelView(LoginRequiredMixin, View):
      })
 
 
-#我收藏酒店
-class MyFavHotelView(LoginRequiredMixin, View):
-    def get(self, request):
-     fav_hotels = UserFavorite.objects.filter(user=request.user, fav_type=2)
-     return render(request, 'usercenter-fav-hotel.html', {
-         'org_list': fav_hotels,
-     })
 
-# 我收藏酒店
-class MyFavSpotView(LoginRequiredMixin, View):
-    def get(self, request):
-        fav_hotels = UserFavorite.objects.filter(user=request.user, fav_type=2)
-        return render(request, 'usercenter-fav-spot.html', {
-            'org_list': fav_hotels,
-        })
-
-# 我收藏酒店
 class MyFavScheduleView(LoginRequiredMixin, View):
     def get(self, request):
-        fav_hotels = UserFavorite.objects.filter(user=request.user, fav_type=2)
+        res = []
+        fav_rooms = UserFavorite.objects.filter(user=request.user, fav_type=1).values('fav_id')
+        for fav_room in fav_rooms:
+            temp = Schedule.objects.filter(id=fav_room['fav_id'])
+            for te in temp:
+                res.append(te)
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        p = Paginator(res, 3, request=request)
+        res = p.page(page)
         return render(request, 'usercenter-fav-schedule.html', {
-            'org_list': fav_hotels,
+            'org_list': res,
         })
-# 我收藏的授课讲师
-# class MyFavTeacherView(LoginRequiredMixin, View):
-#     def get(self, request):
-#         teacher_list = []
-#         fav_teachers = UserFavorite.objects.filter(user=request.user, fav_type=3)
-#         for fav_teacher in fav_teachers:
-#             teacher_id = fav_teacher.fav_id
-#             teacher = Teacher.objects.get(id=teacher_id)
-#             teacher_list.append(teacher)
-#         return render(request, 'usercenter-fav-teacher.html', {
-#             'teacher_list': teacher_list,
-#         })
 
 
-# 我收藏的课程
-# class MyFavCourseView(LoginRequiredMixin, View):
-#     def get(self, request):
-#         course_list = []
-#         fav_courses = UserFavorite.objects.filter(user=request.user, fav_type=1)
-#         for fav_course in fav_courses:
-#             course_id = fav_course.fav_id
-#             course = Course.objects.get(id=course_id)
-#             course_list.append(course)
-#         return render(request, 'usercenter-fav-course.html', {
-#             'course_list': course_list,
-#         })
+class MyFavHotelView(LoginRequiredMixin, View):
+    def get(self, request):
+        res = []
+        fav_rooms = UserFavorite.objects.filter(user=request.user, fav_type=2).values('fav_id')
+        for fav_room in fav_rooms:
+
+            temp = Room.objects.filter(id = fav_room['fav_id'])
+            for te in temp:
+                res.append(te)
+                # 对课程进行分页
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        p = Paginator(res, 3, request=request)
+        res = p.page(page)
+
+
+        return render(request, 'usercenter-fav-hotel.html', {
+         'org_list': res,
+        })
+
+
+
+
+class MyFavSpotView(LoginRequiredMixin, View):
+    def get(self, request):
+        res = []
+        fav_rooms = UserFavorite.objects.filter(user=request.user, fav_type=3).values('fav_id')
+        for fav_room in fav_rooms:
+
+            temp = Ticket.objects.filter(id=fav_room['fav_id'])
+            for te in temp:
+                res.append(te)
+
+
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        p = Paginator(res, 3, request=request)
+        res = p.page(page)
+
+
+        return render(request, 'usercenter-fav-spot.html', {
+            'org_list': res,
+        })
+
 
 
 #我的消息
 class MyMessageView(LoginRequiredMixin, View):
     def get(self, request):
         # 如果 user = 0 ，代表全局消息，所有用户都能收到
-        all_message = UserMessage.objects.filter(user=request.user.id)
+        all_message = UserMessage.objects.filter(user=request.user.id).order_by('-add_time')
 
         #进入到我的消息页面后，把已读的消息清空
         all_unread_message = UserMessage.objects.filter(user=request.user.id, has_read=False)
@@ -366,7 +387,7 @@ class MyMessageView(LoginRequiredMixin, View):
         except PageNotAnInteger:
             page = 1
 
-        p = Paginator(all_message, 2, request=request)
+        p = Paginator(all_message, 4, request=request)
         messages = p.page(page)
 
         return render(request, 'usercenter-message.html', {

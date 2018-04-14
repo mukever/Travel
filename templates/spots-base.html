@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-  <title>{% block custom_title %}酒店首页{% endblock %}</title>
+  <title>{% block custom_title %}景区首页{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/reset.css' %}">
   <link rel="stylesheet" href="{% static 'css/animate.css' %}">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -74,13 +74,6 @@
               <span class="key">5.0</span>
             </p>
           </div>
-          <div class="btn fr collectionbtn  notlogin" data-favid="22" data-fav-type="1">
-            {% if has_fav%}
-              已收藏
-            {% else %}
-              收藏
-            {% endif %}
-          </div>
 
         </div>
       </div>
@@ -91,8 +84,8 @@
   <div class="wp">
     <ul class="crumbs">
       <li><a href="{% url 'index' %}">首页</a>></li>
-      <li><a href="{% url 'spots:spots_list' %}">酒店列表</a>></li>
-      <li>{% block page_path %}酒店{% endblock %}</li>
+      <li><a href="{% url 'spots:spots_list' %}">景区列表</a>></li>
+      <li>{% block page_path %}景区{% endblock %}</li>
     </ul>
   </div>
 </section>
@@ -101,9 +94,9 @@
   <div class="wp list personal_list comp">
     <div class="left">
       <ul>
-        <li class="{% ifequal current_page 'home' %}active2{% endifequal %}"><a href="{% url 'spots:spot_home' spot.id %}">酒店房间</a></li>
-{#        <li class="{% ifequal current_page 'course' %}active2{% endifequal %}"><a href="{% url 'spots:spot_room' spot.id %}">酒店房间</a></li>#}
-        <li class="{% ifequal current_page 'desc' %}active2{% endifequal %}"><a href="{% url 'spots:spot_desc' spot.id %}">酒店介绍</a></li>
+        <li class="{% ifequal current_page 'home' %}active2{% endifequal %}"><a href="{% url 'spots:spot_home' spot.id %}">景区门票</a></li>
+{#        <li class="{% ifequal current_page 'course' %}active2{% endifequal %}"><a href="{% url 'spots:spot_room' spot.id %}">景区门票</a></li>#}
+        <li class="{% ifequal current_page 'desc' %}active2{% endifequal %}"><a href="{% url 'spots:spot_desc' spot.id %}">景区介绍</a></li>
       </ul>
     </div>
 

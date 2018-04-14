@@ -4,22 +4,23 @@ from DjangoUeditor.models import UEditorField
 from django.db import models
 
 # Create your models here.
+from spots.models import CityDict
 
 
 class Schedule(models.Model):
     name = models.CharField(max_length=52, verbose_name='行程名字')
     desc =  models.CharField(max_length=300, verbose_name='行程描述')
-    detail = UEditorField(verbose_name='行程详情')
-    degree = models.CharField(choices=(('cj', '初级'), ('zj', '中级'), ('gj', '高级')), max_length=2, verbose_name='难度')
-    learn_times = models.IntegerField(default=0, verbose_name='学习时长(分钟数)')
-    buy_nums= models.IntegerField(default=0, verbose_name='购买人数')
-    fav_nums = models.IntegerField(default=0, verbose_name='收藏人数')
+    detail = UEditorField(verbose_name='行程详情',blank=True)
+    fav_nums = models.IntegerField(default=0, verbose_name='购买人数')
+    price = models.IntegerField(default=0, verbose_name='价格')
     image = models.ImageField(upload_to='schedule/%Y/%m', verbose_name='封面图', max_length=100)
     click_nums = models.IntegerField(default=0, verbose_name='点击数')
     is_banner = models.BooleanField(default=False, verbose_name=u'是否是轮播图')
-    category = models.CharField(default='后端', max_length=20, verbose_name='行程类别')
-    tag = models.CharField(default='', verbose_name='行程标签', max_length=10)
+    category = models.CharField(choices=(('1', '组团游'), ('2', '亲子游'), ('3', '自驾游')), max_length=2, verbose_name='旅游形式')
+    tag = models.CharField(default='行程备注', verbose_name='行程备注', max_length=10)
     youneed_konw = models.CharField(default='', max_length=300, verbose_name='行前须知')
+    address = models.CharField(max_length=150, verbose_name='景区地址',blank=True)
+    city = models.ForeignKey(CityDict, verbose_name='所在城市',blank=True)
     add_time = models.DateTimeField(default=datetime.now, verbose_name='添加时间')
 
     class Meta:

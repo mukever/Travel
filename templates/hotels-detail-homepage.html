@@ -9,17 +9,17 @@
 {#    <a class="green fr more" href="{% url 'hotels:hotel_home' hotel.id %}">查看更多 > </a>#}
   </div>
   <div class="brief group_list">
-    <!-- 全部 -->
-    {% for room in all_rooms %}
+     <!-- 全部 -->
+    {% for rooms in all_rooms %}
     <div class="module1_5 box">
-      <a href="{% url 'hotels:room_detail' room.id %}"><img width="214" src="{{ MEDIA_URL }}{{ room.image }}"/></a>
+      <a href="{% url 'hotels:room_detail' rooms.id %}"><img width="214" src="{{ MEDIA_URL }}{{ rooms.image }}"/></a>
       <div class="des">
-        <a href="{% url 'hotels:room_detail' room.id %}"><h2>{{ room.name }}</h2></a>
-        <span class="fr">参加人数：{{ room.buy_nums }}</span>
+        <a href="{% url 'hotels:room_detail' rooms.id %}"><h2>{{ rooms.name }}</h2></a>
+        <span class="fr">参加人数：{{ rooms.fav_nums }}</span>
       </div>
       <div class="bottom">
-        <span class="fl">{{ room.name }}</span>
-        <span class="star fr notlogin" data-favid="13" data-fav-type="4">{{ room.fav_nums }}</span>
+        <span class="fl">{{ rooms.name }}</span>
+        <span class="star fr notlogin" data-favid="13" data-fav-type="4">{{ rooms.click_nums }}</span>
       </div>
     </div>
     {% endfor %}

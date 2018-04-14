@@ -2,13 +2,13 @@ __author__ = 'zaxlct'
 __date__ = '2017/4/7 上午9:58'
 
 from django.conf.urls import url
-from .views import HotelDetailView, HotelHomeView, AddFavView, AddUserAskView, HotelDescView, \
+from .views import HotelDetailView, HotelHomeView, AddFavView, HotelDescView, \
     HotelListView, HotelRoomView, RoomDetailView
 
 urlpatterns = [
     # 课程列表页
     url(r'^list/$', HotelListView.as_view(), name='hotels_list'),
-    url(r'^add_ask/$', AddUserAskView.as_view(), name='add_ask'),
+    # url(r'^add_ask/$', AddUserAskView.as_view(), name='add_ask'),
 
     url(r'^home/(?P<hotel_id>\d+)/$', HotelHomeView.as_view(), name='hotel_home'),
     url(r'^detail/(?P<hotel_id>\d+)/$', HotelDetailView.as_view(), name='hotel_detail'),

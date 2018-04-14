@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'^list/$', SpotListView.as_view(), name='spots_list'),
     url(r'^detail/(?P<spot_id>\d+)/$', SpotDetailView.as_view(), name='spot_detail'),
 
-    url(r'^add_ask/$', AddUserAskView.as_view(), name='add_ask'),
+    # url(r'^add_ask/$', AddUserAskView.as_view(), name='add_ask'),
 
     url(r'^home/(?P<spot_id>\d+)/$', SpotHomeView.as_view(), name='spot_home'),
     url(r'^desc/(?P<spot_id>\d+)/$', SpotDescView.as_view(), name='spot_desc'),

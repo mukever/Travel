@@ -6,21 +6,23 @@ from django.db.models import Q
 from django.http import HttpResponse
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
-from schedules.forms import UserAskForm
+
 from .models import Hotel, Room
-from operation.models import UserFavorite
+from operation.models import UserFavorite, UserMessage, UserHotel, UserSchedule, UserSpot
 # from operation.models import UserFavorite, UserH, CourseComments
 from utils.mixin_utils import LoginRequiredMixin
 
 # Create your views here.
 from schedules.models import Schedule
-from spots.models import Spot
+from spots.models import Spot, Ticket, CityDict
+
 
 # 课程列表首页
 class HotelListView(View):
     def get(self, request):
+        all_citys = CityDict.objects.all()
         all_hotels = Hotel.objects.all().order_by('-add_time')
-        hot_hotels = Hotel.objects.all().order_by('-click_nums')[:3]
+        hot_hotels = Hotel.objects.all().order_by('-click_nums')[:6]
 
         #课程搜索
         search_keywords = request.GET.get('keywords', '')
@@ -31,12 +33,16 @@ class HotelListView(View):
                 Q(detail__icontains=search_keywords)
             )
 
-        # 课程排序
+        if request.GET.get('ct') is not None and request.GET.get('ct') != '':
+            all_hotels = all_hotels.filter(category=request.GET.get('ct'))
+        if request.GET.get('city') is not None and request.GET.get('city') != '':
+            all_hotels = all_hotels.filter(city=request.GET.get('city'))
+        print(all_hotels.__len__())
         sort = request.GET.get('sort', '')
-        if sort == 'students':
-            all_courses = all_hotels.order_by('-students')
-        elif sort == 'hot':
-            all_courses = all_hotels.order_by('-click_nums')
+        if sort == 'visit':
+            all_hotels = all_hotels.order_by('-visit_nums')
+        elif sort == 'buy':
+            all_hotels = all_hotels.order_by('-click_nums')
 
         # 对课程进行分页
         try:
@@ -45,12 +51,13 @@ class HotelListView(View):
             page = 1
 
         p = Paginator(all_hotels, 3, request=request)
-        hotels = p.page(page)
+        all_hotels = p.page(page)
 
         return render(request, 'hotels-list.html', {
-            'all_hotels': hotels,
+            'all_hotels': all_hotels,
             'hot_hotels': hot_hotels,
             'sort': sort,
+            'all_citys': all_citys,
         })
 
 
@@ -109,8 +116,6 @@ class HotelHomeView(View):
         })
 
 class AddFavView(View):
-    # 用户收藏、取消收藏 课程机构
-    # (1, '行程'), (2, '酒店'), (3, '景区') )
     def set_fav_nums(self, fav_type, fav_id, num=1):
         if fav_type == 1:
             s = Schedule.objects.get(id=fav_id)
@@ -135,28 +140,48 @@ class AddFavView(View):
             res['msg'] = '用户未登录'
             return HttpResponse(json.dumps(res), content_type='application/json')
 
-        # 查询收藏记录
-        exist_records = UserFavorite.objects.filter(user=request.user, fav_id=fav_id, fav_type=fav_type)
-        if exist_records:
-            exist_records.delete()
-            self.set_fav_nums(fav_type, fav_id, -1)
-            res['status'] = 'success'
-            res['msg'] = '收藏'
-        else:
-            user_fav = UserFavorite()
-            if fav_id and fav_type:
-                user_fav.user = request.user
-                user_fav.fav_id = fav_id
-                user_fav.fav_type = fav_type
-                user_fav.save()
-                self.set_fav_nums(fav_type, fav_id, 1)
+        user_fav = UserFavorite()
+        if fav_id and fav_type:
+            user_fav.user = request.user
+            user_fav.fav_id = fav_id
+            user_fav.fav_type = fav_type
+            user_fav.save()
+            self.set_fav_nums(fav_type, fav_id, 1)
 
-                res['status'] = 'success'
-                res['msg'] = '已收藏'
-            else:
-                res['status'] = 'fail'
-                res['msg'] = '收藏出错'
+            # 发送一条消息
+            message_info = ''
+            if fav_type == 1:
+               message_info = '恭喜您购买 '+Schedule.objects.filter(id=user_fav.fav_id).first().name+' 行程成功，祝你出行愉快'
+               user_schedule = UserSchedule()
+               user_schedule.user = user_fav.user
+               user_schedule.schedule = Schedule.objects.filter(id=user_fav.fav_id).first()
+               user_schedule.save()
+            elif fav_type == 2:
+                message_info = '恭喜您预定 ' + Room.objects.filter(id=user_fav.fav_id).first().name + ' 酒店成功，祝你出行愉快'
+                user_hotel = UserHotel()
+                user_hotel.user = user_fav.user
+                user_hotel.hotel = Room.objects.filter(id=user_fav.fav_id).first()
+                user_hotel.save()
+            elif fav_type == 3:
+                message_info = '恭喜您购买 ' + Ticket.objects.filter(id=user_fav.fav_id).first().name + ' 门票成功，祝你出行愉快'
+                user_spot = UserSpot()
+                user_spot.user = user_fav.user
+                user_spot.spot = Ticket.objects.filter(id=user_fav.fav_id).first()
+                user_spot.save()
+            user_message = UserMessage()
+            user_message.user = user_fav.user.id
+            user_message.message = message_info
+            user_message.has_read = False
+            user_message.save()
+            res['status'] = 'success'
+            res['msg'] = message_info
+
+        else:
+            res['status'] = 'fail'
+            res['msg'] = '购买出错'
+        # print(user_fav.user,user_fav.fav_id,user_fav.fav_type)
         return HttpResponse(json.dumps(res), content_type='application/json')
+
 
 
 class HotelDescView(View):
@@ -178,21 +203,8 @@ class HotelDescView(View):
         })
 
 
-# 用户添加咨询课程表单提交
-class AddUserAskView(View):
-    def post(self, request):
-        user_ask_form = UserAskForm(request.POST)
-        res = dict()
-        if user_ask_form.is_valid():
-            user_ask_form.save(commit=True)
-            res['status'] = 'success'
-        else:
-            res['status'] = 'fail'
-            res['msg'] = '添加出错'
-        return HttpResponse(json.dumps(res), content_type='application/json')
 
 
-# 课程机构详情页讲师页面
 class HotelRoomView(View):
     def get(self, request, hotel_id):
         current_page = 'hotel'
@@ -245,7 +257,7 @@ class RoomDetailView(View):
 
         return render(request, 'hotels-room-detail.html', {
             'room': room,
-            'relate_courses': relate_rooms,
+            'relate_rooms': relate_rooms,
             'has_fav_course': has_fav_course,
             'has_fav_org': has_fav_org,
         })

@@ -121,7 +121,7 @@
           <ul>
             {% for hotel in hotels %}
             <li class="{% if forloop.counter|divisibleby:5 %}five{% endif %}">
-              <a href="{% url 'hotels:hotel_detail' hotel.id %}">
+              <a href="{% url 'hotels:hotel_home' hotel.id %}">
                 <div class="company">
                   <img width="184" height="100" src="{{ MEDIA_URL }}{{ hotel.image }}"/>
                   <div class="score">
@@ -157,7 +157,7 @@
           <ul>
             {% for spot in spots %}
             <li class="{% if forloop.counter|divisibleby:5 %}five{% endif %}">
-              <a href="{% url 'spots:spot_detail' spot.id %}">
+              <a href="{% url 'spots:spot_home' spot.id %}">
                 <div class="company">
                   <img width="184" height="100" src="{{ MEDIA_URL }}{{ spot.image }}"/>
                   <div class="score">

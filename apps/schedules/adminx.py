@@ -7,11 +7,11 @@ from .models import Schedule, BannerSchedule
 
 class ScheduleAdmin:
 
-    list_display = ['name', 'desc', 'detail', 'degree', 'fav_nums',
+    list_display = ['name', 'desc',  'category', 'fav_nums',
                     'click_nums', 'add_time']
-    search_fields = ['name', 'desc', 'detail', 'degree', 'fav_nums',
+    search_fields = ['name', 'desc',  'category', 'fav_nums',
                     'click_nums']
-    list_filter = ['name', 'desc', 'detail', 'degree', 'fav_nums', 'click_nums', 'add_time']
+    list_filter = ['name', 'desc',  'category', 'fav_nums', 'click_nums', 'add_time']
 
     ordering = ['-click_nums']
 
@@ -31,11 +31,11 @@ class ScheduleAdmin:
 
 class BannerScheduleAdmin(object):
 
-    list_display = ['name', 'desc', 'detail', 'degree', 'fav_nums',
+    list_display = ['name', 'desc', 'detail', 'category', 'fav_nums',
                     'click_nums', 'add_time']
-    search_fields = ['name', 'desc', 'detail', 'degree',  'fav_nums',
+    search_fields = ['name', 'desc', 'detail', 'category',  'fav_nums',
                     'click_nums']
-    list_filter = ['name', 'desc', 'detail', 'degree', 'fav_nums',
+    list_filter = ['name', 'desc', 'detail', 'category', 'fav_nums',
                     'click_nums', 'add_time']
     ordering = ['-click_nums']
 
