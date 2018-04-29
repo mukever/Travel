@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}{{ qinziyou.name }}{% endblock %}
+{% load staticfiles %}
+
+{% block custom_bread %}
+    <section>
+        <div class="wp">
+            <ul class="crumbs">
+                <li><a href="{% url 'index' %}">首页</a>></li>
+                <li><a href="{% url 'qinziyous:qinziyous_list' %}">攻略:{{ qinziyou.name }}</a>></li>
+                <li>详情</li>
+            </ul>
+        </div>
+    </section>
+{% endblock %}
+
+{% block custom_content %}
+    <section>
+        <div class="wp">
+            <div class="groupPurchase_detail detail">
+                <div class="toppro">
+
+
+                        <div class="des">
+{#                            <h1 title="{{ qinziyou.name }}">{{ qinziyou.name }}</h1>#}
+{#                            <span class="key">{{ qinziyou.desc }}</span>#}
+
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="wp">
+            <div class="list groupPurchase_detail_pro">
+                <div class=" layout">
+                    <div class="head">
+                        <ul class="tab_header">
+                            <li class="active">详情</li>
+                        </ul>
+                    </div>
+                    <div class="tab_cont tab_cont1">
+                         <p>{% autoescape off %}{{ qinziyou.detail }}{% endautoescape %}</p>
+                    </div>
+                    <div class="tab_cont tab_cont2">
+                        <div class="comment">
+                            <div class="comenlist">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block custom_js %}
+    <script>
+        //收藏分享
+        function add_fav(current_elem, fav_id, fav_type) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'qinziyous:add_fav' %}",
+                data: {'fav_id': fav_id, 'fav_type': fav_type},
+                async: false,
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                success: function (data) {
+                    if (data.status == 'fail') {
+                        if (data.msg == '用户未登录') {
+                            window.event.returnValue=false
+                            window.location.href = "{% url 'login' %}";
+                        } else {
+                            current_elem.text(data.msg)
+                        }
+                    } else if (data.status == 'success') {
+                        {#current_elem.text(data.msg);#}
+                        alert(data.msg)
+                    }
+                },
+                error: function (error) {
+                      alert("服务器出错，购买失败")
+                }
+            });
+        }
+
+        //
+        $('#jsLeftBtn').on('click', function () {
+            add_fav($(this), {{ qinziyou.id }}, 1);
+        });
+
+    </script>
+{% endblock %}

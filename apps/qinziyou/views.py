@@ -9,7 +9,7 @@ from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
 from hotels.models import Room, Hotel
 from operation.models import UserSpot, UserHotel, UserSchedule, UserMessage, UserFavorite
-from .models import Schedule
+from .models import Qinziyou
 from spots.models import Spot, Ticket
 
 
@@ -17,15 +17,15 @@ from spots.models import Spot, Ticket
 
 
 # 课程列表首页
-class ScheduleListView(View):
+class QinziyouListView(View):
     def get(self, request):
-        all_schedules = Schedule.objects.all().order_by('-add_time')
-        hot_schedules = Schedule.objects.all().order_by('-click_nums')[:2]
+        all_qinziyous = Qinziyou.objects.all().order_by('-add_time')
+        hot_qinziyous = Qinziyou.objects.all().order_by('-click_nums')[:2]
 
         #课程搜索
         search_keywords = request.GET.get('keywords', '')
         if search_keywords:
-            all_schedules = all_schedules.filter(
+            all_qinziyous = all_qinziyous.filter(
                 Q(name__icontains=search_keywords) |
                 Q(desc__icontains=search_keywords) |
                 Q(detail__icontains=search_keywords)
@@ -34,9 +34,9 @@ class ScheduleListView(View):
         # 课程排序
         sort = request.GET.get('sort', '')
         if sort == 'fav_nums':
-            all_schedules = all_schedules.order_by('-fav_nums')
+            all_qinziyous = all_qinziyous.order_by('-fav_nums')
         elif sort == 'hot':
-            all_schedules = all_schedules.order_by('-click_nums')
+            all_qinziyous = all_qinziyous.order_by('-click_nums')
 
         # 对课程进行分页
         try:
@@ -44,30 +44,30 @@ class ScheduleListView(View):
         except PageNotAnInteger:
             page = 1
 
-        p = Paginator(all_schedules, 6, request=request)
-        schedules = p.page(page)
+        p = Paginator(all_qinziyous, 6, request=request)
+        qinziyous = p.page(page)
 
-        return render(request, 'schedules-list.html', {
-            'all_schedules': schedules,
-            'hot_schedules': hot_schedules,
+        return render(request, 'qinziyou/qinziyous-list.html', {
+            'all_qinziyous': qinziyous,
+            'hot_qinziyous': hot_qinziyous,
             'sort': sort,
         })
 #详情
-class ScheduleDetailView(View):
-    def get(self, request, schedule_id):
-        schedule = Schedule.objects.get(id=int(schedule_id))
+class QinziyouDetailView(View):
+    def get(self, request, qinziyou_id):
+        qinziyou = Qinziyou.objects.get(id=int(qinziyou_id))
 
         # 课程点击数 + 1
-        schedule.click_nums += 1
-        schedule.save()
+        qinziyou.click_nums += 1
+        qinziyou.save()
 
         # 找到相关课程
-        tag = schedule.tag
+        tag = qinziyou.tag
 
-        relate_schedules = Schedule.objects.all().order_by('-click_nums')[:3]
+        relate_qinziyous = Qinziyou.objects.all().order_by('-click_nums')[:3]
 
         # 课程/机构收藏
-        has_fav_schedule = False
+        has_fav_qinziyou = False
         has_fav_org = False
         # if request.user.is_authenticated():
         #     if UserFavorite.objects.filter(user=request.user, fav_id=course.id, fav_type=1):
@@ -75,10 +75,10 @@ class ScheduleDetailView(View):
         #     if UserFavorite.objects.filter(user=request.user, fav_id=course.course_org.id, fav_type=2):
         #         has_fav_org = True
 
-        return render(request, 'schedules-detail.html', {
-            'schedule': schedule,
-            'relate_schedule': relate_schedules,
-            'has_fav_schedule': has_fav_schedule,
+        return render(request, 'qinziyou/qinziyou-detail.html', {
+            'qinziyou': qinziyou,
+            'relate_qinziyou': relate_qinziyous,
+            'has_fav_qinziyou': has_fav_qinziyou,
             'has_fav_org': has_fav_org,
         })
 
@@ -87,7 +87,7 @@ class AddFavView(View):
 
     def set_fav_nums(self, fav_type, fav_id, num=1):
         if fav_type == 1:
-            s = Schedule.objects.get(id=fav_id)
+            s = Qinziyou.objects.get(id=fav_id)
             s.fav_nums += num
             s.save()
         elif fav_type == 2:
@@ -122,11 +122,11 @@ class AddFavView(View):
             # 发送一条消息
             message_info = ''
             if fav_type == 1:
-                message_info = '恭喜您购买 ' + Schedule.objects.filter(id=user_fav.fav_id).first().name + ' 行程成功，祝你出行愉快'
-                user_schedule = UserSchedule()
-                user_schedule.user = user_fav.user
-                user_schedule.schedule = Schedule.objects.filter(id=user_fav.fav_id).first()
-                user_schedule.save()
+                message_info = '恭喜您购买 ' + Qinziyou.objects.filter(id=user_fav.fav_id).first().name + ' 行程成功，祝你出行愉快'
+                user_qinziyou = UserSchedule()
+                user_qinziyou.user = user_fav.user
+                user_qinziyou.qinziyou = Qinziyou.objects.filter(id=user_fav.fav_id).first()
+                user_qinziyou.save()
             elif fav_type == 2:
                 message_info = '恭喜您预定 ' + Room.objects.filter(id=user_fav.fav_id).first().name + ' 酒店成功，祝你出行愉快'
                 user_hotel = UserHotel()

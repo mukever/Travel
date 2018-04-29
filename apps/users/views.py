@@ -404,7 +404,7 @@ class IndexView(View):
         banner_schedules = Schedule.objects.filter(is_banner=True)[:3]
         spots = Spot.objects.all()[:15]
 
-        hotels = Hotel.objects.all()[:6]
+        hotels = Hotel.objects.all()[:15]
         return render(request, 'index.html', {
             'all_banners': all_banners,
             'schedules': schedules,

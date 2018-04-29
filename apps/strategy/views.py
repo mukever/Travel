@@ -8,66 +8,61 @@ from django.http import HttpResponse
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
 from hotels.models import Room, Hotel
-from operation.models import UserSpot, UserHotel, UserSchedule, UserMessage, UserFavorite
-from .models import Schedule
+from operation.models import UserSpot, UserHotel, UserMessage, UserFavorite, UserSchedule
+from schedules.models import Schedule
 from spots.models import Spot, Ticket
-
+from .models import Strategy
 
 # Create your views here.
 
-
-# 课程列表首页
-class ScheduleListView(View):
+class StrategyListView(View):
     def get(self, request):
-        all_schedules = Schedule.objects.all().order_by('-add_time')
-        hot_schedules = Schedule.objects.all().order_by('-click_nums')[:2]
+        all_strategy = Strategy.objects.all().order_by('-add_time')
+        hot_strategy = Strategy.objects.all().order_by('-click_nums')[:2]
 
-        #课程搜索
         search_keywords = request.GET.get('keywords', '')
         if search_keywords:
-            all_schedules = all_schedules.filter(
+            all_strategy = all_strategy.filter(
                 Q(name__icontains=search_keywords) |
                 Q(desc__icontains=search_keywords) |
                 Q(detail__icontains=search_keywords)
             )
 
-        # 课程排序
         sort = request.GET.get('sort', '')
         if sort == 'fav_nums':
-            all_schedules = all_schedules.order_by('-fav_nums')
+            all_strategy = all_strategy.order_by('-fav_nums')
         elif sort == 'hot':
-            all_schedules = all_schedules.order_by('-click_nums')
+            all_strategy = all_strategy.order_by('-click_nums')
 
-        # 对课程进行分页
         try:
             page = request.GET.get('page', 1)
         except PageNotAnInteger:
             page = 1
 
-        p = Paginator(all_schedules, 6, request=request)
-        schedules = p.page(page)
+        p = Paginator(all_strategy, 6, request=request)
+        strategy = p.page(page)
 
-        return render(request, 'schedules-list.html', {
-            'all_schedules': schedules,
-            'hot_schedules': hot_schedules,
+        return render(request, 'strategy/strategys-list.html', {
+            'all_strategys': strategy,
+            'hot_strategys': hot_strategy,
             'sort': sort,
         })
-#详情
-class ScheduleDetailView(View):
-    def get(self, request, schedule_id):
-        schedule = Schedule.objects.get(id=int(schedule_id))
+
+
+class StrategyDetailView(View):
+    def get(self, request, strategy_id):
+        strategy = Strategy.objects.get(id=int(strategy_id))
 
         # 课程点击数 + 1
-        schedule.click_nums += 1
-        schedule.save()
-
+        strategy.click_nums += 1
+        strategy.save()
         # 找到相关课程
-        tag = schedule.tag
+        tag = strategy.tag
 
-        relate_schedules = Schedule.objects.all().order_by('-click_nums')[:3]
+        relate_strategy = Strategy.objects.all().order_by('-click_nums')[:3]
 
         # 课程/机构收藏
-        has_fav_schedule = False
+        has_fav_strategy = False
         has_fav_org = False
         # if request.user.is_authenticated():
         #     if UserFavorite.objects.filter(user=request.user, fav_id=course.id, fav_type=1):
@@ -75,10 +70,10 @@ class ScheduleDetailView(View):
         #     if UserFavorite.objects.filter(user=request.user, fav_id=course.course_org.id, fav_type=2):
         #         has_fav_org = True
 
-        return render(request, 'schedules-detail.html', {
-            'schedule': schedule,
-            'relate_schedule': relate_schedules,
-            'has_fav_schedule': has_fav_schedule,
+        return render(request, 'strategy/strategy-detail.html', {
+            'strategy': strategy,
+            'relate_strategy': relate_strategy,
+            'has_fav_strategy': has_fav_strategy,
             'has_fav_org': has_fav_org,
         })
 
@@ -122,11 +117,11 @@ class AddFavView(View):
             # 发送一条消息
             message_info = ''
             if fav_type == 1:
-                message_info = '恭喜您购买 ' + Schedule.objects.filter(id=user_fav.fav_id).first().name + ' 行程成功，祝你出行愉快'
-                user_schedule = UserSchedule()
-                user_schedule.user = user_fav.user
-                user_schedule.schedule = Schedule.objects.filter(id=user_fav.fav_id).first()
-                user_schedule.save()
+                message_info = '恭喜您购买 ' + Strategy.objects.filter(id=user_fav.fav_id).first().name + ' 行程成功，祝你出行愉快'
+                user_strategy = UserSchedule()
+                user_strategy.user = user_fav.user
+                user_strategy.strategy = Strategy.objects.filter(id=user_fav.fav_id).first()
+                user_strategy.save()
             elif fav_type == 2:
                 message_info = '恭喜您预定 ' + Room.objects.filter(id=user_fav.fav_id).first().name + ' 酒店成功，祝你出行愉快'
                 user_hotel = UserHotel()

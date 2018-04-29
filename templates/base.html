@@ -61,7 +61,7 @@
 
       <div class="middle">
         <div class="wp">
-          <a href="{% url 'index' %}"><img class="fl" src="{% static 'images/logo.jpg' %}"/></a>
+          <a href="{% url 'index' %}"><img class="fl" src="{% static 'images/logo3.png' %}"/></a>
           <div class="searchbox fr">
             <div class="selectContainer fl">
                             <span class="selectOption" id="jsSelectOption" data-value="schedule">
@@ -94,6 +94,19 @@
               </li>
               <li class="{% ifequal request.path|slice:'11' '/spots/list' %}active{% endifequal %}">
                   <a href="{% url 'spots:spots_list' %}">景区</a>
+              </li>
+
+             <li class="{% ifequal request.path|slice:'16' '/zutuanyous/list' %}active{% endifequal %}">
+                  <a href="{% url 'zutuanyous:zutuanyous_list' %}">组团游<img class="hot" src="{% static 'images/nav_hot.png' %}">
+                  </a>
+              </li>
+            <li class="{% ifequal request.path|slice:'15' '/qinziyous/list' %}active{% endifequal %}">
+                  <a href="{% url 'qinziyous:qinziyous_list' %}">亲子游
+                  </a>
+              </li>
+              <li class="{% ifequal request.path|slice:'15' '/strategys/list' %}active{% endifequal %}">
+                  <a href="{% url 'strategys:strategys_list' %}">攻略<img class="hot" src="{% static 'images/nav_hot.png' %}">
+                  </a>
               </li>
             </ul>
           </div>
