@@ -69,6 +69,12 @@ urlpatterns = [
 
     # 用户中心 URL 配置
     url(r'^users/', include('users.urls', namespace='users')),
+# 用户中心 URL 配置
+    url(r'^strategys/', include('strategy.urls', namespace='strategys')),
+# 用户中心 URL 配置
+    url(r'^qinziyous/', include('qinziyou.urls', namespace='qinziyous')),
+# 用户中心 URL 配置
+    url(r'^zutuanyous/', include('zutuanyou.urls', namespace='zutuanyous')),
 
 ]
 
