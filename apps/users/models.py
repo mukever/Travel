@@ -22,7 +22,6 @@ class UserProfile(AbstractUser):
         # 获取用户未读数据数量
         from operation.models import UserMessage
         return UserMessage.objects.filter(user=self.id, has_read=False).count()
-        pass
 
     def __str__(self):
         return self.username

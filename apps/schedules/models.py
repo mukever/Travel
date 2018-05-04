@@ -40,3 +40,17 @@ class BannerSchedule(Schedule):
         proxy = True
 
 
+class QinziSchedule(Schedule):
+    class Meta:
+        verbose_name = u'亲子游'
+        verbose_name_plural = verbose_name
+        # 如果不设置 proxy ，就会再生成一个 BannerCourse 数据表
+        proxy = True
+
+
+class ZutuanSchedule(Schedule):
+    class Meta:
+        verbose_name = u'组团游'
+        verbose_name_plural = verbose_name
+        # 如果不设置 proxy ，就会再生成一个 BannerCourse 数据表
+        proxy = True

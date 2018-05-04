@@ -1,6 +1,6 @@
-{% extends 'usercenter-base.html' %}
+{% extends 'usercenter/usercenter-base.html' %}
 {% load staticfiles %}
-{% block title %}我的购买-驴友在线网{% endblock %}
+{% block title %}我的预定记录-驴友在线网{% endblock %}
 
 {% block custom_bread %}
 <section>
@@ -8,7 +8,7 @@
     <ul class="crumbs">
       <li><a href="{% url 'index' %}">首页</a>></li>
       <li><a href="{% url 'users:user_info' %}">个人中心</a>></li>
-      <li>我的购买</li>
+      <li>我的预定记录</li>
     </ul>
   </div>
 </section>
@@ -18,7 +18,7 @@
 <div class="right">
       <div class="personal_des Releasecont">
         <div class="head">
-          <h1>我的购买</h1>
+          <h1>我的预定记录</h1>
         </div>
 
       </div>
@@ -26,8 +26,10 @@
         <div class="head">
           <ul class="tab_header messagehead">
              <li class="active"><a href="{% url 'users:myfav_spot' %}">景点门票</a></li>
-            <li ><a href="{% url 'users:myfav_hotel' %}">酒店房间</a></li>
-            <li><a href="{% url 'users:myfav_schedule' %}">行程</a></li>
+            <li><a href="{% url 'users:myfav_hotel' %}">酒店房间</a></li>
+            <li ><a href="{% url 'users:myfav_schedule' %}">行程</a></li>
+              <li ><a href="{% url 'users:myfav_qinziyou' %}">亲子游</a></li>
+              <li ><a href="{% url 'users:myfav_zutuanyou' %}">组团游</a></li>
           </ul>
         </div>
         <div class="messagelist">

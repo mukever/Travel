@@ -3,21 +3,18 @@ from datetime import datetime
 from django.db import models
 
 # Create your models here.
-
+from qinziyou.models import Qinziyou
 from users.models import UserProfile
 from schedules.models import Schedule
 from hotels.models import Hotel, Room
 from spots.models import Spot,Ticket
-
-
-
+from zutuanyou.models import Zutuanyou
 
 
 class UserFavorite(models.Model):
     user = models.ForeignKey(UserProfile, verbose_name='用户')
-    # ID 是课程的 ID 或者是 讲师、课程机构的 ID
     fav_id = models.IntegerField(default=0, verbose_name='收藏数据 Id')
-    fav_type = models.IntegerField(choices=( (1, '行程'), (2, '酒店房间'), (3, '景区门票') ), default=1, verbose_name='购买类型')
+    fav_type = models.IntegerField(choices=( (1, '行程'), (2, '酒店房间'), (3, '景区门票'), (4, '组团游') , (5, '亲子游')   ), default=1, verbose_name='购买类型')
     add_time = models.DateTimeField(default=datetime.now, verbose_name='添加时间')
 
     class Meta:
@@ -29,8 +26,12 @@ class UserFavorite(models.Model):
             return Schedule.objects.filter(id=self.fav_id).first()
         elif self.fav_type ==2:
             return Room.objects.filter(id=self.fav_id).first()
-        else:
+        elif self.fav_type == 3:
             return Ticket.objects.filter(id=self.fav_id).first()
+        elif self.fav_type == 4:
+            return Zutuanyou.objects.filter(id=self.fav_id).first()
+        elif self.fav_type == 5:
+            return Qinziyou.objects.filter(id=self.fav_id).first()
 
     data_tag.short_description = '购买物品'
     data_tag.allow_tags = True
@@ -81,3 +82,20 @@ class UserSchedule(models.Model):
         verbose_name_plural = verbose_name
 
 
+class UserQinziyou(models.Model):
+    user = models.ForeignKey(UserProfile, verbose_name='用户')
+    qinziyou = models.ForeignKey(Qinziyou, verbose_name='亲子游',blank=True)
+    add_time = models.DateTimeField(default=datetime.now, verbose_name='添加时间')
+
+    class Meta:
+        verbose_name = '用户参加的亲子游'
+        verbose_name_plural = verbose_name
+
+class UserZutuanyou(models.Model):
+    user = models.ForeignKey(UserProfile, verbose_name='用户')
+    zutuanyou = models.ForeignKey(Zutuanyou, verbose_name='组团游',blank=True)
+    add_time = models.DateTimeField(default=datetime.now, verbose_name='添加时间')
+
+    class Meta:
+        verbose_name = '用户参加的组团游'
+        verbose_name_plural = verbose_name

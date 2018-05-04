@@ -53,7 +53,7 @@ class HotelListView(View):
         p = Paginator(all_hotels, 3, request=request)
         all_hotels = p.page(page)
 
-        return render(request, 'hotels-list.html', {
+        return render(request, 'hotel/hotels-list.html', {
             'all_hotels': all_hotels,
             'hot_hotels': hot_hotels,
             'sort': sort,
@@ -85,7 +85,7 @@ class HotelDetailView(View):
         #     if UserFavorite.objects.filter(user=request.user, fav_id=course.course_org.id, fav_type=2):
         #         has_fav_org = True
 
-        return render(request, 'hotels-detail.html', {
+        return render(request, 'hotel/hotels-detail.html', {
             'hotel': hotel,
             'relate_courses': relate_hotel,
             'has_fav_course': has_fav_hotel,
@@ -108,7 +108,7 @@ class HotelHomeView(View):
 
         current_page = 'home'
 
-        return render(request, 'hotels-detail-homepage.html', {
+        return render(request, 'hotel/hotels-detail-homepage.html', {
             'all_rooms': all_rooms,
             'hotel': hotel,
             'current_page': current_page,
@@ -118,18 +118,10 @@ class HotelHomeView(View):
 class AddFavView(View):
 
     def set_fav_nums(self, fav_type, fav_id, num=1):
-        if fav_type == 1:
-            s = Schedule.objects.get(id=fav_id)
-            s.fav_nums += num
-            s.save()
-        elif fav_type == 2:
+        if fav_type == 2:
             h = Hotel.objects.get(id=fav_id)
             h.fav_nums += num
             h.save()
-        elif fav_type == 3:
-            spot = Spot.objects.get(id=fav_id)
-            spot.fav_nums += num
-            spot.save()
 
     def post(self, request):
         fav_id = int(request.POST.get('fav_id', 0))
@@ -153,24 +145,12 @@ class AddFavView(View):
 
             # 发送一条消息
             message_info = '用户未登录'
-            if fav_type == 1:
-                message_info = '恭喜您购买 ' + Schedule.objects.filter(id=user_fav.fav_id).first().name + ' 行程成功，祝你出行愉快'
-                user_schedule = UserSchedule()
-                user_schedule.user = user_fav.user
-                user_schedule.schedule = Schedule.objects.filter(id=user_fav.fav_id).first()
-                user_schedule.save()
-            elif fav_type == 2:
+            if fav_type == 2:
                 message_info = '恭喜您预定 ' + Room.objects.filter(id=user_fav.fav_id).first().name + ' 酒店成功，祝你出行愉快'
                 user_hotel = UserHotel()
                 user_hotel.user = user_fav.user
                 user_hotel.hotel = Room.objects.filter(id=user_fav.fav_id).first()
                 user_hotel.save()
-            elif fav_type == 3:
-                message_info = '恭喜您购买 ' + Ticket.objects.filter(id=user_fav.fav_id).first().name + ' 门票成功，祝你出行愉快'
-                user_spot = UserSpot()
-                user_spot.user = user_fav.user
-                user_spot.spot = Ticket.objects.filter(id=user_fav.fav_id).first()
-                user_spot.save()
 
             user_message = UserMessage()
             user_message.user = user_fav.user.id
@@ -197,7 +177,7 @@ class HotelDescView(View):
             if UserFavorite.objects.filter(user=request.user, fav_id=hotel.id, fav_type=2):
                 has_fav = True
 
-        return render(request, 'hotels-detail-desc.html', {
+        return render(request, 'hotel/hotels-detail-desc.html', {
             'hotel': hotel,
             'current_page': current_page,
             'has_fav': has_fav,
@@ -228,7 +208,7 @@ class HotelRoomView(View):
 
         courses = p.page(page)
 
-        return render(request, 'hotels-detail-room.html', {
+        return render(request, 'hotel/hotels-detail-room.html', {
             'all_rooms': courses,
             'hotel': hotel,
             'current_page': current_page,
@@ -256,7 +236,7 @@ class RoomDetailView(View):
             if UserFavorite.objects.filter(user=request.user, fav_id=room.hotel.id, fav_type=2):
                 has_fav_org = True
 
-        return render(request, 'hotels-room-detail.html', {
+        return render(request, 'hotel/hotels-room-detail.html', {
             'room': room,
             'relate_rooms': relate_rooms,
             'has_fav_course': has_fav_course,

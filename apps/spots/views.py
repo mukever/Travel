@@ -56,7 +56,7 @@ class SpotListView(View):
         all_Spots = p.page(page)
 
 
-        return render(request, 'spots-list.html', {
+        return render(request, 'spot/spots-list.html', {
             'all_spots': all_Spots,
             'hot_spots': hot_Spots,
             'sort': sort,
@@ -88,7 +88,7 @@ class SpotDetailView(View):
         #     if UserFavorite.objects.filter(user=request.user, fav_id=course.course_org.id, fav_type=2):
         #         has_fav_org = True
 
-        return render(request, 'spots-detail-homepage.html', {
+        return render(request, 'spot/spots-detail-homepage.html', {
             'spot': Spot,
             'relate_courses': relate_spot,
             'has_fav_course': has_fav_Spot,
@@ -111,7 +111,7 @@ class SpotHomeView(View):
 
         current_page = 'home'
 
-        return render(request, 'spots-detail-homepage.html', {
+        return render(request, 'spot/spots-detail-homepage.html', {
             'all_tickets': all_tickets,
             'spot': spot,
             'current_page': current_page,
@@ -201,7 +201,7 @@ class SpotDescView(View):
             if UserFavorite.objects.filter(user=request.user, fav_id=spot.id, fav_type=2):
                 has_fav = True
 
-        return render(request, 'spots-detail-desc.html', {
+        return render(request, 'spot/spots-detail-desc.html', {
             'spot': spot,
             'current_page': current_page,
             'has_fav': has_fav,
@@ -227,7 +227,7 @@ class SpotTicketView(View):
 
         courses = p.page(page)
 
-        return render(request, 'spots-detail-ticket.html', {
+        return render(request, 'spot/spots-detail-ticket.html', {
             'all_rooms': courses,
             'spot': Spot,
             'current_page': current_page,
@@ -250,7 +250,7 @@ class TicketDetailView(View):
             if UserFavorite.objects.filter(user=request.user, fav_id=ticket.org.id, fav_type=2):
                 has_fav_org = True
 
-        return render(request, 'spots-ticket-detail.html', {
+        return render(request, 'spot/spots-ticket-detail.html', {
             'ticket': ticket,
             'relate_tickets': relate_tickets,
             'has_fav_course': has_fav_course,

@@ -58,6 +58,9 @@ INSTALLED_APPS = [
     'DjangoUeditor',
     'schedules',
     'operation',
+    'strategy',
+    'qinziyou',
+    'zutuanyou',
 ]
 
 # UserProfile 覆盖了 django 内置的 user 表

@@ -1,7 +1,7 @@
 __author__ = 'zaxlct'
 __date__ = '2017/4/2 下午5:40'
 
-from .models import UserFavorite, UserMessage
+from .models import UserFavorite, UserMessage, UserQinziyou, UserZutuanyou
 from .models import UserHotel,UserSpot,UserSchedule
 
 import xadmin
@@ -42,6 +42,15 @@ class UserScheduleAdmin:
     search_fields = ['user', 'schedule']
     list_filter = ['user', 'schedule', 'add_time']
 
+class UserQinziyouAdmin:
+    list_display = ['user', 'qinziyou', 'add_time']
+    search_fields = ['user', 'qinziyou']
+    list_filter = ['user', 'qinziyou', 'add_time']
+
+class UserZutuanyouAdmin:
+    list_display = ['user', 'zutuanyou', 'add_time']
+    search_fields = ['user', 'zutuanyou']
+    list_filter = ['user', 'zutuanyou', 'add_time']
 
 xadmin.site.register(UserFavorite, UserFavoriteAdmin)
 xadmin.site.register(UserMessage, UserMessageAdmin)
@@ -50,3 +59,6 @@ xadmin.site.register(UserMessage, UserMessageAdmin)
 xadmin.site.register(UserSchedule, UserScheduleAdmin)
 xadmin.site.register(UserSpot, UserSpotAdmin)
 xadmin.site.register(UserHotel, UserHotelAdmin)
+
+xadmin.site.register(UserQinziyou, UserQinziyouAdmin)
+xadmin.site.register(UserZutuanyou, UserZutuanyouAdmin)

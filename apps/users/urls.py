@@ -3,7 +3,7 @@ __date__ = '2017/4/9 上午11:55'
 
 from django.conf.urls import url, include
 from .views import UserInfoView, UploadImageView, UpdatePwdView, SendEmailCodeView, UpdateEmailView, MyFavSpotView, \
-    MyFavScheduleView
+    MyFavScheduleView, MyFavQinziyouView, MyFavZutuanyouView
 from .views import MyMessageView
 from .views import MyHotelView,MyFavHotelView
 urlpatterns = [
@@ -32,6 +32,10 @@ urlpatterns = [
     url(r'^myfav/spot/$', MyFavSpotView.as_view(), name='myfav_spot'),
     # 我收藏
     url(r'^myfav/schedule/$', MyFavScheduleView.as_view(), name='myfav_schedule'),
+    # 我收藏
+    url(r'^myfav/qinziyou/$', MyFavQinziyouView.as_view(), name='myfav_qinziyou'),
+    # 我收藏
+    url(r'^myfav/zutuanyou/$', MyFavZutuanyouView.as_view(), name='myfav_zutuanyou'),
 
 
 

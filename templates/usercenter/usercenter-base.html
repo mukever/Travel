@@ -49,7 +49,7 @@
             </div>
             <a href="{% url 'users:mymessage' %}">
               <div class="msg-num">
-                <span id="MsgNum">{{ request.user.unread_nums }}</span>
+                <span id="MsgNum">{{ request.user.get_unread_nums }}</span>
               </div>
             </a>
           {% else %}
@@ -68,10 +68,13 @@
                             <span class="selectOption" id="jsSelectOption" data-value="schedule">
                                 行程
                             </span>
-               <ul class="selectMenu" id="jsSelectMenu">
-                  <li data-value="schedule"> 行程</li>
+                <ul class="selectMenu" id="jsSelectMenu">
+                <li data-value="schedule"> 行程</li>
                 <li data-value="hotel">酒店</li>
                 <li data-value="spot">景区</li>
+                <li data-value="qinziyou">亲子游</li>
+                <li data-value="zutuanyou">组团游</li>
+                  <li data-value="strategy">游玩攻略</li>
               </ul>
             </div>
             <input id="search_keywords" class="fl" type="text" value="" placeholder="请输入搜索内容"/>
@@ -86,15 +89,29 @@
           <div class="wp">
             <ul>
               <li class="{% ifequal request.path '/' %}active{% endifequal %}"><a href="{% url 'index' %}">首页</a></li>
-              <li class="{% ifequal request.path|slice:'7' '/course' %}active{% endifequal %}">
-                <a href="{% url 'schedules:schedules_list' %}">
-                  行程<img class="hot" src="{% static 'images/nav_hot.png' %}">
+              <li class="{% ifequal request.path|slice:'11'  '/schedules/' %}active{% endifequal %}">
+                <a href="{% url 'schedules:schedules_list' %}">行程<img class="hot" src="{% static 'images/nav_hot.png' %}">
                 </a>
               </li>
-              <li class="{% ifequal request.path|slice:'17' '/org/teacher/list' %}active{% endifequal %}">
+              <li class="{% ifequal request.path|slice:'8' '/hotels/' %}active{% endifequal %}">
                 <a href="{% url 'hotels:hotels_list' %}">酒店</a>
               </li>
-              <li class="{% ifequal request.path|slice:'9' '/org/list' %}active{% endifequal %}"><a href="{% url 'spots:spots_list' %}">景区</a></li>
+              <li class="{% ifequal request.path|slice:'7' '/spots/' %}active{% endifequal %}">
+                  <a href="{% url 'spots:spots_list' %}">景区</a>
+              </li>
+
+             <li class="{% ifequal request.path|slice:'12' '/zutuanyous/' %}active{% endifequal %}">
+                  <a href="{% url 'zutuanyous:zutuanyous_list' %}">组团游<img class="hot" src="{% static 'images/nav_hot.png' %}">
+                  </a>
+              </li>
+            <li class="{% ifequal request.path|slice:'11' '/qinziyous/' %}active{% endifequal %}">
+                  <a href="{% url 'qinziyous:qinziyous_list' %}">亲子游
+                  </a>
+              </li>
+              <li class="{% ifequal request.path|slice:'11' '/strategys/' %}active{% endifequal %}">
+                  <a href="{% url 'strategys:strategys_list' %}">游玩攻略<img class="hot" src="{% static 'images/nav_hot.png' %}">
+                  </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -123,7 +140,7 @@
     <div class="left">
       <ul>
         <li class="active2"><a href="{% url 'users:user_info' %}">个人资料</a></li>
-        <li><a href="{% url 'users:myfav_spot' %}">我的购买</a></li>
+        <li><a href="{% url 'users:myfav_spot' %}">我的预定记录</a></li>
         <li>
           <a href="{% url 'users:mymessage' %}" style="position: relative;">
             我的消息

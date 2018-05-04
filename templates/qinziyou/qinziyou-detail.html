@@ -7,7 +7,7 @@
         <div class="wp">
             <ul class="crumbs">
                 <li><a href="{% url 'index' %}">首页</a>></li>
-                <li><a href="{% url 'qinziyous:qinziyous_list' %}">攻略:{{ qinziyou.name }}</a>></li>
+                <li><a href="{% url 'qinziyous:qinziyous_list' %}">亲子游:{{ qinziyou.name }}</a>></li>
                 <li>详情</li>
             </ul>
         </div>
@@ -19,14 +19,62 @@
         <div class="wp">
             <div class="groupPurchase_detail detail">
                 <div class="toppro">
-
-
-                        <div class="des">
-{#                            <h1 title="{{ qinziyou.name }}">{{ qinziyou.name }}</h1>#}
-{#                            <span class="key">{{ qinziyou.desc }}</span>#}
-
+                    <div class="left">
+                        <div class="picbox">
+                            <div class="tb-booth tb-pic">
+                                <img width="440" height="445" src="{{ MEDIA_URL }}{{ qinziyou.image }}" class="jqzoom"/>
+                            </div>
                         </div>
+                        <div class="des">
+                            <h1 title="{{ qinziyou.name }}">{{ qinziyou.name }}</h1>
+                            <span class="key">{{ qinziyou.desc }}</span>
+                            <div class="prize">
+                                <span class="fl">
+                                    售价：<i class="key">{{ qinziyou.price }} </i>¥
+                                    </span>
+                                <br>
 
+                            </div>
+
+                            <ul class="parameter">
+                                <li>
+                                    <span class="pram word3">热度：{{ qinziyou.tag }}</span>
+                                </li>
+                                <li>
+                                <span class="pram word3">购买人数：{{ qinziyou.fav_nums }}</span>
+                                </li>
+
+
+                            </ul>
+                            <div class="btns">
+
+                                <div id="jsLeftBtn" class="buy btn"><a style="color: white; display: block;"
+                                                        href="{% url 'qinziyous:qinziyous_detail' qinziyou.id %}">购买</a>
+
+{#                                <div id="jsLeftBtn" class="buy btn">ss</a>#}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   <div class="right companyrank layout">
+                      <div class="head">热门亲子游</div>
+                      {% for relate_qinziyou in relate_qinziyous %}
+                          <dl class="des difdes">
+                                <dt>
+                                  <a href="{% url 'qinziyous:qinziyous_detail' relate_qinziyou.id %}">
+                                    <img width="60" height="60" class="scrollLoading" data-url="{{ MEDIA_URL }}{{ relate_qinziyou.image }}"/>
+                                      {{ relate_qinziyou.name }}
+
+                                  </a>
+
+                                </dt>
+                                <dd>
+
+
+                                </dd>
+                          </dl>
+                      {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -91,7 +139,7 @@
 
         //
         $('#jsLeftBtn').on('click', function () {
-            add_fav($(this), {{ qinziyou.id }}, 1);
+            add_fav($(this), {{ qinziyou.id }}, 5);
         });
 
     </script>

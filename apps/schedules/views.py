@@ -47,7 +47,7 @@ class ScheduleListView(View):
         p = Paginator(all_schedules, 6, request=request)
         schedules = p.page(page)
 
-        return render(request, 'schedules-list.html', {
+        return render(request, 'schedule/schedules-list.html', {
             'all_schedules': schedules,
             'hot_schedules': hot_schedules,
             'sort': sort,
@@ -75,7 +75,7 @@ class ScheduleDetailView(View):
         #     if UserFavorite.objects.filter(user=request.user, fav_id=course.course_org.id, fav_type=2):
         #         has_fav_org = True
 
-        return render(request, 'schedules-detail.html', {
+        return render(request, 'schedule/schedules-detail.html', {
             'schedule': schedule,
             'relate_schedule': relate_schedules,
             'has_fav_schedule': has_fav_schedule,

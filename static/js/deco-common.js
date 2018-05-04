@@ -73,6 +73,12 @@ function search_click(){
         request_url = "/hotels/list?keywords="+keywords
     }else if(type == "spot"){
         request_url = "/spots/list?keywords="+keywords
+    }else if(type == "zutuanyou"){
+        request_url = "/zutuanyous/list?keywords="+keywords
+    }else if(type == "qinziyou"){
+        request_url = "/qinziyous/list?keywords="+keywords
+    }else if(type == "strategy"){
+        request_url = "/strategys/list?keywords="+keywords
     }
     window.location.href = request_url
 }

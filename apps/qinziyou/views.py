@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
 from hotels.models import Room, Hotel
-from operation.models import UserSpot, UserHotel, UserSchedule, UserMessage, UserFavorite
+from operation.models import UserSpot, UserHotel, UserSchedule, UserMessage, UserFavorite, UserQinziyou
 from .models import Qinziyou
 from spots.models import Spot, Ticket
 
@@ -77,7 +77,7 @@ class QinziyouDetailView(View):
 
         return render(request, 'qinziyou/qinziyou-detail.html', {
             'qinziyou': qinziyou,
-            'relate_qinziyou': relate_qinziyous,
+            'relate_qinziyous': relate_qinziyous,
             'has_fav_qinziyou': has_fav_qinziyou,
             'has_fav_org': has_fav_org,
         })
@@ -86,18 +86,11 @@ class QinziyouDetailView(View):
 class AddFavView(View):
 
     def set_fav_nums(self, fav_type, fav_id, num=1):
-        if fav_type == 1:
+        if fav_type == 5:
             s = Qinziyou.objects.get(id=fav_id)
             s.fav_nums += num
             s.save()
-        elif fav_type == 2:
-            h = Hotel.objects.get(id=fav_id)
-            h.fav_nums += num
-            h.save()
-        elif fav_type == 3:
-            spot = Spot.objects.get(id=fav_id)
-            spot.fav_nums += num
-            spot.save()
+
 
     def post(self, request):
         fav_id = int(request.POST.get('fav_id', 0))
@@ -121,24 +114,13 @@ class AddFavView(View):
 
             # 发送一条消息
             message_info = ''
-            if fav_type == 1:
-                message_info = '恭喜您购买 ' + Qinziyou.objects.filter(id=user_fav.fav_id).first().name + ' 行程成功，祝你出行愉快'
-                user_qinziyou = UserSchedule()
+            if fav_type == 5:
+                message_info = '恭喜您购买 ' + Qinziyou.objects.filter(id=user_fav.fav_id).first().name + ' 成功，祝你出行愉快'
+                user_qinziyou = UserQinziyou()
                 user_qinziyou.user = user_fav.user
                 user_qinziyou.qinziyou = Qinziyou.objects.filter(id=user_fav.fav_id).first()
                 user_qinziyou.save()
-            elif fav_type == 2:
-                message_info = '恭喜您预定 ' + Room.objects.filter(id=user_fav.fav_id).first().name + ' 酒店成功，祝你出行愉快'
-                user_hotel = UserHotel()
-                user_hotel.user = user_fav.user
-                user_hotel.hotel = Room.objects.filter(id=user_fav.fav_id).first()
-                user_hotel.save()
-            elif fav_type == 3:
-                message_info = '恭喜您购买 ' + Ticket.objects.filter(id=user_fav.fav_id).first().name + ' 门票成功，祝你出行愉快'
-                user_spot = UserSpot()
-                user_spot.user = user_fav.user
-                user_spot.spot = Ticket.objects.filter(id=user_fav.fav_id).first()
-                user_spot.save()
+
 
             user_message = UserMessage()
             user_message.user = user_fav.user.id

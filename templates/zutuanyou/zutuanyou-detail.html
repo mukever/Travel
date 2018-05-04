@@ -7,7 +7,7 @@
         <div class="wp">
             <ul class="crumbs">
                 <li><a href="{% url 'index' %}">首页</a>></li>
-                <li><a href="{% url 'zutuanyous:zutuanyous_list' %}">攻略:{{ zutuanyou.name }}</a>></li>
+                <li><a href="{% url 'zutuanyous:zutuanyous_list' %}">组团游:{{ zutuanyou.name }}</a>></li>
                 <li>详情</li>
             </ul>
         </div>
@@ -19,14 +19,62 @@
         <div class="wp">
             <div class="groupPurchase_detail detail">
                 <div class="toppro">
-
-
-                        <div class="des">
-{#                            <h1 title="{{ zutuanyou.name }}">{{ zutuanyou.name }}</h1>#}
-{#                            <span class="key">{{ zutuanyou.desc }}</span>#}
-
+                    <div class="left">
+                        <div class="picbox">
+                            <div class="tb-booth tb-pic">
+                                <img width="440" height="445" src="{{ MEDIA_URL }}{{ zutuanyou.image }}" class="jqzoom"/>
+                            </div>
                         </div>
+                        <div class="des">
+                            <h1 title="{{ zutuanyou.name }}">{{ zutuanyou.name }}</h1>
+                            <span class="key">{{ zutuanyou.desc }}</span>
+                            <div class="prize">
+                                <span class="fl">
+                                    售价：<i class="key">{{ zutuanyou.price }} </i>¥
+                                    </span>
+                                <br>
 
+                            </div>
+
+                            <ul class="parameter">
+                                <li>
+                                    <span class="pram word3">热度：{{ zutuanyou.tag }}</span>
+                                </li>
+                                <li>
+                                <span class="pram word3">购买人数：{{ zutuanyou.fav_nums }}</span>
+                                </li>
+
+
+                            </ul>
+                            <div class="btns">
+
+                                <div id="jsLeftBtn" class="buy btn"><a style="color: white; display: block;"
+                                                        href="{% url 'zutuanyous:zutuanyous_detail' zutuanyou.id %}">购买</a>
+
+{#                                <div id="jsLeftBtn" class="buy btn">ss</a>#}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   <div class="right companyrank layout">
+                      <div class="head">热门组团游</div>
+                      {% for relate_zutuanyou in relate_zutuanyous %}
+                          <dl class="des difdes">
+                                <dt>
+                                  <a href="{% url 'zutuanyous:zutuanyous_detail' relate_zutuanyou.id %}">
+                                    <img width="60" height="60" class="scrollLoading" data-url="{{ MEDIA_URL }}{{ relate_zutuanyou.image }}"/>
+                                      {{ relate_zutuanyou.name }}
+
+                                  </a>
+
+                                </dt>
+                                <dd>
+
+
+                                </dd>
+                          </dl>
+                      {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -91,7 +139,7 @@
 
         //
         $('#jsLeftBtn').on('click', function () {
-            add_fav($(this), {{ zutuanyou.id }}, 1);
+            add_fav($(this), {{ zutuanyou.id }}, 4);
         });
 
     </script>
